@@ -1101,7 +1101,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 60ac4052dc02e49f58763af328c92d82, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1244,6 +1244,8 @@ MonoBehaviour:
   lowIntensityDist: 100
   highIntensityDist: 40
   audioUpdateTime: 3
+  minBellowTime: 5
+  maxBellowTime: 15
 --- !u!135 &135567205669613734
 SphereCollider:
   m_ObjectHideFlags: 1

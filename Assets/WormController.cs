@@ -32,11 +32,18 @@ public class WormController : MonoBehaviour {
     public float audioUpdateTime;
     float nextAudioRefresh;
 
+    [Space(15)]
+    public float minBellowTime;
+    public float maxBellowTime;
+    float nextBellow;
+    AudioSource bellowSound;
+
     Rigidbody rb;
 
 	void Start () {
 		player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody>();
+        bellowSound = GetComponent<AudioSource>();
 	}
 	
 	void Update () {
@@ -56,6 +63,11 @@ public class WormController : MonoBehaviour {
                 rb.velocity = transform.forward * curSpeed;
 
                 speed += speedIncreaseRate * Time.deltaTime;
+
+                if (Time.time > nextBellow) {
+                    Bellow();
+                }
+
                 break;
             case State.Waiting:
                 if (player.transform.position.z < spawnDistance) {
@@ -72,8 +84,12 @@ public class WormController : MonoBehaviour {
     void Activate() {
         transform.position = player.transform.position - Vector3.forward * maxFollowDist + Vector3.down * 20; // start arbitrarily below the belt
         state = State.Chasing;
+        Bellow();
+    }
 
-        GetComponent<AudioSource>().Play(); //for testing purposes
+    void Bellow() {
+        bellowSound.Play();
+        nextBellow = Time.time + Random.Range(minBellowTime, maxBellowTime);
     }
 
     public void StartSwallowSequence() {
@@ -117,6 +133,10 @@ public class WormController : MonoBehaviour {
 
     float CalculateMusicIntensity() {
         float dist = Vector3.Distance(transform.position, player.transform.position);
+
+        if (dist < 10) {
+            Bellow();
+        }
 
         return Mathf.Clamp01((speed / 30) + ((dist - lowIntensityDist) / (highIntensityDist - lowIntensityDist))); //linear falloff
     }
