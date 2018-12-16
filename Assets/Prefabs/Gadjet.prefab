@@ -1072,6 +1072,8 @@ MonoBehaviour:
   grabed: {fileID: 0}
   grappleSound: {fileID: 82873464714550368}
   holdSound: {fileID: 82211953531712634}
+  lowPitch: 0.2
+  highPitch: 2
   triggerAction: {fileID: 11400000, guid: 915ac0bd85b3bdb40975d83cec111730, type: 2}
   otherGun: {fileID: 0}
 --- !u!120 &120885003580919618

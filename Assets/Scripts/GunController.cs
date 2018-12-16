@@ -35,6 +35,8 @@ public class GunController : MonoBehaviour {
     [Space(15)]
     public AudioSource grappleSound;
     public AudioSource holdSound;
+    public float lowPitch;
+    public float highPitch;
 
 	// visuals
 
@@ -255,6 +257,8 @@ public class GunController : MonoBehaviour {
 			if (distDiff > 0) {
 				forceMul = 1f + (distDiff * swingMultiplier); // to make it so that the force is greater when you are on the upside of a swing
 			}
+
+            holdSound.pitch = (lowPitch - highPitch) * Mathf.Clamp01((dist - highPitch) / maxRange);
 
 			if (dist > grabTolerence * 2f) {
 				Vector3 force = diff.normalized * swingForce * forceMul * Time.deltaTime;
