@@ -115,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013889601590}
   - component: {fileID: 20000014031267948}
+  - component: {fileID: 81607296795404322}
   m_Layer: 10
   m_Name: Camera
   m_TagString: MainCamera
@@ -220,6 +221,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!81 &81607296795404322
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014254142504}
+  m_Enabled: 1
 --- !u!114 &114000010110554832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -316,6 +324,7 @@ MonoBehaviour:
   hands:
   - {fileID: 458974}
   - {fileID: 402434}
+  deathHeight: -75
 --- !u!114 &114955237323771120
 MonoBehaviour:
   m_ObjectHideFlags: 1

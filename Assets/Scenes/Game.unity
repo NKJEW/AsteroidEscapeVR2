@@ -483,18 +483,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 880764299}
   m_CullTransparentMesh: 0
---- !u!1 &1049507405 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2,
-    type: 2}
-  m_PrefabInternal: {fileID: 1057841773}
---- !u!81 &1049507408
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1049507405}
-  m_Enabled: 1
 --- !u!1001 &1057841773
 Prefab:
   m_ObjectHideFlags: 0

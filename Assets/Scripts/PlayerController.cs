@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour {
 	public GameObject gunPrefab;
 	public Transform[] hands;
 
+    public float deathHeight;
+    bool hasFallen;
+
 	// camera
 	Quaternion freezeOffset;
 	Quaternion lookAtOffset = Quaternion.identity;
@@ -72,6 +75,11 @@ public class PlayerController : MonoBehaviour {
 		} else {
 			transform.rotation = lookAtOffset;
 		}
+
+        if (!hasFallen && transform.position.y < deathHeight) {
+            hasFallen = true;
+            SceneFader.instance.FadeToScene(0, Color.black, 0.5f);
+        }
 	}
 
     void StartSwallow() {
