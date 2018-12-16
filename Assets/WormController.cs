@@ -113,6 +113,8 @@ public class WormController : MonoBehaviour {
 			p += Time.deltaTime;
 		}
 
+        SceneFader.instance.FadeToScene(0, Color.black, swallowTime);
+
 		p = 0f;
 		Vector3 camOffset = Camera.main.transform.localPosition;
         while (p < 1f) {
@@ -129,7 +131,6 @@ public class WormController : MonoBehaviour {
     void OnSwallowComplete() {
         print("u ded");
         state = State.Finished;
-        SceneFader.instance.FadeToScene(0, Color.black);
     }
 
     float CalculateMusicIntensity() {
