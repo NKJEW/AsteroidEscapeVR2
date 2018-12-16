@@ -58,7 +58,7 @@ MonoBehaviour:
   launchRadius: 60
   launchBufferOffset: 10
   minChaosLaunchWait: 20
-  maxChaosLaunchWait: 0.5
+  maxChaosLaunchWait: 0.05
   launchWaitVariance: 5
   launchConeAngle: 20
   minLaunchSpeed: 2
@@ -67,7 +67,7 @@ MonoBehaviour:
   maxChaosFlamingChance: 0.75
   minFlamingSpeed: 30
   maxFlamingSpeed: 35
-  chaosIncreaseRate: 0.25
+  chaosIncreaseRate: 0.5
   asteroidPrefab: {fileID: 1132267318016648, guid: 354dca690f0d04945bdbf300d1394ca0,
     type: 2}
   asteroidExplosion: {fileID: 1701965939655616, guid: 174ff6d23657b4aadbb594e8056d092d,

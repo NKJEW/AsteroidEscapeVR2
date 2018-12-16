@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   massFactor: 1250
   scaleVariance: 0.2
-  debrisFactor: 5
+  debrisFactor: 10
 --- !u!114 &114550101328019564
 MonoBehaviour:
   m_ObjectHideFlags: 1

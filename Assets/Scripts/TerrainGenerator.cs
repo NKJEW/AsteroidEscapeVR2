@@ -95,7 +95,11 @@ public class TerrainGenerator : MonoBehaviour {
 
     void Update() {
         if (Time.time > nextLaunch) {
-            nextLaunch = Time.time + Mathf.Max(maxChaosLaunchWait, Mathf.Lerp(minChaosLaunchWait, maxChaosLaunchWait, GetChaosFactor()) + Random.Range(-launchWaitVariance, launchWaitVariance));
+			float curChaos = GetChaosFactor();
+			float curVariance = Mathf.Lerp(launchWaitVariance, 0.7f, curChaos);
+			float rate = Mathf.Max(maxChaosLaunchWait, Mathf.Lerp(minChaosLaunchWait, maxChaosLaunchWait, curChaos) + Random.Range(-curVariance, curVariance));
+			print("Rate: " + rate);
+            nextLaunch = Time.time + rate;
             LaunchAsteroid();
         }
     }
@@ -141,10 +145,13 @@ public class TerrainGenerator : MonoBehaviour {
 
     float GetChaosFactor() { //chaos factor (0 to 1) is based on distance and affects the rate of moving and flaming asteroids
         float curPlayerDistance = playerRb.transform.position.z;
-        return 1 - (1 / Mathf.Sqrt(chaosIncreaseRate * Mathf.Max(curPlayerDistance,0) + 1));
-    }
+		float val = Mathf.Clamp01((1f/1000f) * curPlayerDistance);
+		print(val);
+        return val;
+		//1 - (1 / Mathf.Sqrt(chaosIncreaseRate * Mathf.Max(curPlayerDistance,0) + 1));
+	}
 
-    public Mesh GetMeshOfSize(int size) {
+	public Mesh GetMeshOfSize(int size) {
         List<Mesh> datas = asteroidsBySize[size];
         return datas[Random.Range(0, datas.Count)];
     }

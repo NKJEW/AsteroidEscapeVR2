@@ -192,7 +192,7 @@ public class GunController : MonoBehaviour {
 	void GetNewAnchor (Vector3 position, Transform obj)
 	{
 		grabed = obj.GetComponent<Grabable>();
-		grabed.CreateAnchor(position);
+		grabed.CreateAnchor(position, this);
 	}
 
 	void UpdateGrappler (float timeRatio)
@@ -258,7 +258,7 @@ public class GunController : MonoBehaviour {
 				forceMul = 1f + (distDiff * swingMultiplier); // to make it so that the force is greater when you are on the upside of a swing
 			}
 
-            holdSound.pitch = (lowPitch - highPitch) * Mathf.Clamp01((dist - highPitch) / maxRange);
+            //holdSound.pitch = (lowPitch - highPitch) * Mathf.Clamp01(dist / maxRange) + highPitch;
 
 			if (dist > grabTolerence * 2f) {
 				Vector3 force = diff.normalized * swingForce * forceMul * Time.deltaTime;
