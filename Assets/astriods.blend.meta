@@ -1,0 +1,193 @@
+fileFormatVersion: 2
+guid: 4a264fa6034308f46bd8b81d8a2e6d01
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Icosphere
+    100004: Icosphere_001
+    100006: Icosphere_002
+    100008: Icosphere_003
+    100010: Icosphere_004
+    100012: astriod0
+    100014: astriod1
+    100016: astriod2
+    100018: astriod3
+    100020: astriod4
+    100022: Cube
+    100024: fragment0
+    100026: fragment1
+    100028: fragment2
+    100030: fragment3
+    100032: fragment4
+    100034: fragment5
+    100036: fragment6
+    100038: astriod5
+    100040: flameShell
+    400000: //RootNode
+    400002: Icosphere
+    400004: Icosphere_001
+    400006: Icosphere_002
+    400008: Icosphere_003
+    400010: Icosphere_004
+    400012: astriod0
+    400014: astriod1
+    400016: astriod2
+    400018: astriod3
+    400020: astriod4
+    400022: Cube
+    400024: fragment0
+    400026: fragment1
+    400028: fragment2
+    400030: fragment3
+    400032: fragment4
+    400034: fragment5
+    400036: fragment6
+    400038: astriod5
+    400040: flameShell
+    2100000: unnamed
+    2100002: ShellMat
+    2300000: Icosphere
+    2300002: Icosphere_001
+    2300004: Icosphere_002
+    2300006: Icosphere_003
+    2300008: Icosphere_004
+    2300010: astriod0
+    2300012: astriod1
+    2300014: astriod2
+    2300016: astriod3
+    2300018: astriod4
+    2300020: Cube
+    2300022: fragment0
+    2300024: fragment1
+    2300026: fragment2
+    2300028: fragment3
+    2300030: fragment4
+    2300032: fragment5
+    2300034: fragment6
+    2300036: astriod5
+    2300038: flameShell
+    3300000: Icosphere
+    3300002: Icosphere_001
+    3300004: Icosphere_002
+    3300006: Icosphere_003
+    3300008: Icosphere_004
+    3300010: astriod0
+    3300012: astriod1
+    3300014: astriod2
+    3300016: astriod3
+    3300018: astriod4
+    3300020: Cube
+    3300022: fragment0
+    3300024: fragment1
+    3300026: fragment2
+    3300028: fragment3
+    3300030: fragment4
+    3300032: fragment5
+    3300034: fragment6
+    3300036: astriod5
+    3300038: flameShell
+    4300000: Icosphere_003
+    4300002: Icosphere
+    4300004: Icosphere_001
+    4300006: Icosphere_002
+    4300008: Icosphere_004
+    4300010: astriod3
+    4300012: astriod1
+    4300014: astriod0
+    4300016: astriod2
+    4300018: astriod4
+    4300020: Cube
+    4300022: fragment1
+    4300024: fragment0
+    4300026: fragment6
+    4300028: fragment4
+    4300030: fragment5
+    4300032: fragment2
+    4300034: fragment3
+    4300036: astriod5
+    4300038: flameShell
+    7400000: Default Take
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
