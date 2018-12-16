@@ -32,6 +32,10 @@ public class GunController : MonoBehaviour {
 	public LayerMask collidableLayers;
 	public Grabable grabed = null;
 
+    [Space(15)]
+    public AudioSource grappleSound;
+    public AudioSource holdSound;
+
 	// visuals
 
 
@@ -88,6 +92,7 @@ public class GunController : MonoBehaviour {
 			}
 		}
 		state = State.extending;
+        grappleSound.Play();
 
 		GetNewAnchor(data.pos, data.obj);
 
@@ -117,6 +122,7 @@ public class GunController : MonoBehaviour {
 		GetNewAnchor(data.pos, data.obj);
 
 		state = State.grabing;
+        holdSound.Play();
 		rb.isKinematic = true;
 
 		grabOffset = rb.transform.position - data.pos;
@@ -149,7 +155,8 @@ public class GunController : MonoBehaviour {
 
 	public void Detach (bool attached = false)
 	{
-			
+        holdSound.Stop();	
+
 		if (state == State.grabing) {
 			EndGrab(attached);
 		} else {
