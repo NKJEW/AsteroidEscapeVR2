@@ -118,6 +118,6 @@ public class WormController : MonoBehaviour {
     float CalculateMusicIntensity() {
         float dist = Vector3.Distance(transform.position, player.transform.position);
 
-        return Mathf.Clamp01((dist - lowIntensityDist) / (highIntensityDist - lowIntensityDist)); //linear falloff
+        return Mathf.Clamp01((speed / 30) + ((dist - lowIntensityDist) / (highIntensityDist - lowIntensityDist))); //linear falloff
     }
 }
