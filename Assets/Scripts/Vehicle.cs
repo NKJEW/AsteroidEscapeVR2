@@ -23,7 +23,7 @@ public class Vehicle : MonoBehaviour {
     public void EnterVehicle() {
         player.transform.position = seat.transform.position;
         player.transform.parent = seat.transform;
-        player.DisableGuns();
+        player.EnableHands(PlayerController.HandType.interactionHands);
         player.SetRigidbodyActive(false);
         isActive = true;
         rb.velocity = new Vector3(0, 0, baseForwardSpeed);

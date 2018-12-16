@@ -167,7 +167,7 @@ public class GunController : MonoBehaviour {
 			Retract();
 		}
 
-		hand.SetHaptic(HandController.HapticType.detach);
+		//hand.SetHaptic(HandController.HapticType.detach);
 	}
 
 	void Retract () {
@@ -281,11 +281,11 @@ public class GunController : MonoBehaviour {
 			Collider[] colls = Physics.OverlapCapsule(targetPos + capsuleOffset + Vector3.up * (capsule.radius), targetPos + capsuleOffset + Vector3.up * (capsule.height - capsule.radius), capsule.radius, collidableLayers);
 
 			if (colls.Length > 0) {
-				RecenterPlayer(true);
+				pc.RecenterPlayer(true);
 			} else { // position valid
 				grabOffset += handDiff;
 				rb.transform.position = grabOffset + grabed.GetAnchorPos();
-				RecenterPlayer();
+				//RecenterPlayer();
 			}
 
 			lastPos = spawn.position;
@@ -301,17 +301,9 @@ public class GunController : MonoBehaviour {
 			grabed.AddForce(rb.mass * Physics.gravity);
 		}
 
-		if (otherGun.state != State.grabing && state != State.grabing) {
-			RecenterPlayer();
-		}
-	}
-
-	void RecenterPlayer (bool compensate = false) {
-		Vector3 curCenter = capsule.center;
-		capsule.center = new Vector3(Camera.main.transform.localPosition.x, capsule.center.y, Camera.main.transform.localPosition.z);
-		if (compensate) {
-			rb.transform.Translate(-capsule.center + curCenter);
-		}
+		//if (otherGun.state != State.grabing && state != State.grabing) {
+		//	RecenterPlayer();
+		//}
 	}
 
 	AttachData GetGrappleTarget ()

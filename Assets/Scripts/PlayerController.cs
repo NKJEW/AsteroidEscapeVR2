@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.VR;
 using Valve.VR;
 
-public class PlayerController : MonoBehaviour {
-	public GameObject gunPrefab;
+public class PlayerController :MonoBehaviour {
+	public GameObject gadgetPrefab;
+	public GameObject interactionHandPrefab;
 	public Transform[] hands;
 
-    public float deathHeight;
-    bool hasFallen;
+	public float deathHeight;
+	bool hasFallen;
 
 	// camera
 	Quaternion freezeOffset;
@@ -21,26 +22,78 @@ public class PlayerController : MonoBehaviour {
 	float lookAtTimer = 0f;
 	bool lockCamera = false;
 
-    List<GunController> guns = new List<GunController>();
+	List<GunController> gadgets = new List<GunController>();
+	List<InteractionController> interactionHands = new List<InteractionController>();
 
-    Rigidbody rb;
+	Rigidbody rb;
+	CapsuleCollider capsule;
 
 	// Use this for initialization
 	void Start () {
 		for (int i = 0; i < hands.Length; i++) {
-			GameObject gun = Instantiate(gunPrefab, hands[i]);
-			gun.transform.localPosition = Vector3.zero;
-			gun.transform.localRotation = Quaternion.identity;
-			guns.Add(gun.GetComponent<GunController>());
+			GameObject gadget = Instantiate(gadgetPrefab, hands[i]);
+			gadget.transform.localPosition = Vector3.zero;
+			gadget.transform.localRotation = Quaternion.identity;
+			gadgets.Add(gadget.GetComponent<GunController>());
+
+			GameObject interactionHand = Instantiate(interactionHandPrefab, hands[i]);
+			interactionHand.transform.localPosition = Vector3.zero;
+			interactionHand.transform.localRotation = Quaternion.identity;
+			interactionHands.Add(interactionHand.GetComponent<InteractionController>());
 		}
 
-		guns[0].otherGun = guns[1];
-		guns[1].otherGun = guns[0];
+		gadgets[0].otherGun = gadgets[1];
+		gadgets[1].otherGun = gadgets[0];
+		interactionHands[0] = interactionHands[1];
+		interactionHands[1] = interactionHands[0];
 
-		guns[0].conID = 0;
-		guns[1].conID = 1;
+		gadgets[0].conID = 0;
+		gadgets[1].conID = 1;
+		interactionHands[0].conID = 0;
+		interactionHands[1].conID = 1;
 
-        rb = GetComponent<Rigidbody>();
+		DisableHands();
+		EnableHands(HandType.gadgets);
+
+		rb = GetComponent<Rigidbody>();
+		capsule = GetComponent<CapsuleCollider>();
+
+		RecenterPlayer(true);
+	}
+
+	public void DisableHands () {
+		foreach (var gadget in gadgets) {
+			gadget.Detach();
+			gadget.gameObject.SetActive(false);
+		}
+		foreach (var con in interactionHands) {
+			con.Detach();
+			con.gameObject.SetActive(false); ;
+		}
+	}
+
+	public enum HandType {
+		gadgets,
+		interactionHands
+	}
+	public void EnableHands (HandType type) {
+		if (type == HandType.gadgets) {
+			foreach (var gadget in gadgets) {
+				gadget.gameObject.SetActive(true);
+			}
+			foreach (var con in interactionHands) {
+				con.Detach();
+				con.gameObject.SetActive(false);
+			}
+		} else if (type == HandType.interactionHands) {
+			foreach (var gadget in gadgets) {
+				gadget.Detach();
+				gadget.gameObject.SetActive(false);
+			}
+			foreach (var con in interactionHands) {
+				con.gameObject.SetActive(true);
+			}
+		}
 	}
 
 	public void CameraLookAt (Vector3 point, float time) {
@@ -87,22 +140,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
     void StartSwallow() {
-        DisableGuns();
+        DisableHands();
         Destroy(GetComponent<Collider>());
 
         FindObjectOfType<WormController>().StartSwallowSequence();
-    }
-
-    public void DisableGuns() {
-        guns[0].Detach();
-        guns[0].gameObject.SetActive(false);
-        guns[1].Detach();
-        guns[1].gameObject.SetActive(false);
-    }
-
-    public void EnableGuns() {
-        guns[0].gameObject.SetActive(true);
-        guns[1].gameObject.SetActive(true);
     }
 
     public void SetRigidbodyActive(bool isActive) {
@@ -117,4 +158,17 @@ public class PlayerController : MonoBehaviour {
             StartSwallow();
         }
     }
+
+	// recentering
+	public void RecenterPlayer (bool compensate = false) {
+		Vector3 curCenter = capsule.center;
+		capsule.center = new Vector3(Camera.main.transform.localPosition.x, capsule.center.y, Camera.main.transform.localPosition.z);
+		if (compensate) {
+			transform.Translate(-capsule.center + curCenter);
+		}
+	}
+
+	void Update () {
+		RecenterPlayer();
+	}
 }

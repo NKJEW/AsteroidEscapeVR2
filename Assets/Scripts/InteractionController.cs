@@ -79,7 +79,11 @@ public class InteractionController : MonoBehaviour {
         state = State.grabing;
     }
 
-    void Detach () {
+    public void Detach () {
+		if (state == State.idle) {
+			return;
+		}
+
         curInteractionObj.EndInteracting();
 
         // visuals

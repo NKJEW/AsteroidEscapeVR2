@@ -846,7 +846,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 093c6099006894de38481c1ce3a44af7, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.01
+  m_Volume: 0.025
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1072,8 +1072,8 @@ MonoBehaviour:
   grabed: {fileID: 0}
   grappleSound: {fileID: 82873464714550368}
   holdSound: {fileID: 82211953531712634}
-  lowPitch: 0.2
-  highPitch: 2
+  lowPitch: 0.8
+  highPitch: 1.2
   triggerAction: {fileID: 11400000, guid: 915ac0bd85b3bdb40975d83cec111730, type: 2}
   otherGun: {fileID: 0}
 --- !u!120 &120885003580919618

@@ -320,7 +320,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712791ba44c8a5e4eb1e474b1a057f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunPrefab: {fileID: 1013522960349760, guid: f782d512f9ed3c94b81473077f9aa928, type: 2}
+  gadgetPrefab: {fileID: 1013522960349760, guid: f782d512f9ed3c94b81473077f9aa928,
+    type: 2}
+  interactionHandPrefab: {fileID: 1331799293620768, guid: e06ab55f629edca42a9f6a1592bd82d9,
+    type: 2}
   hands:
   - {fileID: 458974}
   - {fileID: 402434}
