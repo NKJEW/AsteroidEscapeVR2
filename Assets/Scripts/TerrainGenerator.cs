@@ -145,7 +145,7 @@ public class TerrainGenerator : MonoBehaviour {
 
     float GetChaosFactor() { //chaos factor (0 to 1) is based on distance and affects the rate of moving and flaming asteroids
         float curPlayerDistance = playerRb.transform.position.z;
-		float val = Mathf.Clamp01((1f/1000f) * curPlayerDistance);
+		float val = Mathf.Clamp01((1f/1500f) * curPlayerDistance);
 		print(val);
         return val;
 		//1 - (1 / Mathf.Sqrt(chaosIncreaseRate * Mathf.Max(curPlayerDistance,0) + 1));
