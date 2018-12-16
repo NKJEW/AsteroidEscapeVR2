@@ -40,7 +40,7 @@ public class WormController : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (Time.time > audioUpdateTime) {
+        if (Time.time > nextAudioRefresh) {
             MusicManager.instance.UpdateIntensity(CalculateMusicIntensity(), audioUpdateTime);
             nextAudioRefresh = Time.time + audioUpdateTime;
         }

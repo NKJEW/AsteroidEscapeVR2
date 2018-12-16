@@ -264,21 +264,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114007433073700038, guid: c1d6a53ba9688c44982fad689a10c743,
-        type: 2}
-      propertyPath: lowIntensityDist
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 114007433073700038, guid: c1d6a53ba9688c44982fad689a10c743,
-        type: 2}
-      propertyPath: highIntensityDist
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 114007433073700038, guid: c1d6a53ba9688c44982fad689a10c743,
-        type: 2}
-      propertyPath: audioUpdateTime
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1d6a53ba9688c44982fad689a10c743, type: 2}
   m_IsPrefabAsset: 0
