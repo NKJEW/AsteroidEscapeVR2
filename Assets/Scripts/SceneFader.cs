@@ -23,7 +23,8 @@ public class SceneFader : MonoBehaviour {
 	}
 
 	public void FadeToScene(int buildIndex, Color color, float fadeTime) {
-		SetColor (color);
+		GetComponent<Canvas>().worldCamera = Camera.main;
+		SetColor(color);
         StartCoroutine (SwitchScenes(buildIndex, fadeTime));
 	}
 		
@@ -42,7 +43,10 @@ public class SceneFader : MonoBehaviour {
 		AsyncOperation loadingLevel = SceneManager.LoadSceneAsync (buildIndex);
 		yield return new WaitUntil (() => loadingLevel.isDone);
 
-        yield return StartCoroutine (FadeOut(fadeTime));
+		GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
+		yield return new WaitForSeconds(0.2f);
+
+		yield return StartCoroutine (FadeOut(fadeTime));
 	}
 		
 	IEnumerator FadeIn(float fadeTime) {
@@ -66,7 +70,7 @@ public class SceneFader : MonoBehaviour {
 
 		while(p < 1f) {
 			fader.color = Color.Lerp (fullColor, zeroColor, p);
-            p += t / fadeTime;
+            p += t / 0.2f;
 			yield return new WaitForSecondsRealtime (t);
 		}
 		fader.color = zeroColor;
