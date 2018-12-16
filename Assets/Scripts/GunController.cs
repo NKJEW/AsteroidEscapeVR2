@@ -82,6 +82,8 @@ public class GunController : MonoBehaviour {
 		Vector3 diff = grabed.GetAnchorPos() - spawn.position;
 		lastDist = diff.magnitude;
 
+		holdSound.Play();
+
 		hand.SetHaptic(HandController.HapticType.grapple);
 	}
 
@@ -122,7 +124,7 @@ public class GunController : MonoBehaviour {
 		GetNewAnchor(data.pos, data.obj);
 
 		state = State.grabing;
-        holdSound.Play();
+        holdSound.Stop();
 		rb.isKinematic = true;
 
 		grabOffset = rb.transform.position - data.pos;

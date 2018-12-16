@@ -64,7 +64,7 @@ MonoBehaviour:
   minLaunchSpeed: 2
   maxLaunchSpeed: 5
   minChaosFlamingChance: 0.1
-  maxChaosFlamingChance: 0.5
+  maxChaosFlamingChance: 0.75
   minFlamingSpeed: 30
   maxFlamingSpeed: 35
   chaosIncreaseRate: 0.25
