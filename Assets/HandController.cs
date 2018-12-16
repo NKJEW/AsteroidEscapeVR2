@@ -14,10 +14,10 @@ public class HandController : MonoBehaviour {
 	public SteamVR_Input_Sources handType;
 	public SteamVR_Action_Vibration hapticAction;
 
-	ushort grappleHaptic = 5000;
-	ushort grabHaptic = 8000;
+	ushort grappleHaptic = 10000;
+	ushort grabHaptic = 15000;
 	ushort detachHaptic = 1000;
-	ushort retractDoneHaptic = 500;
+	ushort retractDoneHaptic = 2000;
 
 	public void SetHaptic (HapticType type) {
 		ushort length = 0;
