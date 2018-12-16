@@ -9,8 +9,9 @@ public class MusicManager : MonoBehaviour {
     AudioSource[] tracks;
     AudioState[] states;
 
-    int numActiveTracks;
     public float maxTrackVolume;
+
+    float temp;
 
     struct AudioState {
         public int trackId;
@@ -27,7 +28,7 @@ public class MusicManager : MonoBehaviour {
 
     void Start() {
         InitializeTracks();
-        UpdateIntensity(0, 0);
+        tracks[0].volume = maxTrackVolume; //hack to make the base track start
     }
 
     void InitializeTracks() {
@@ -38,20 +39,15 @@ public class MusicManager : MonoBehaviour {
             tracks[i].clip = clips[i];
             tracks[i].loop = true;
             tracks[i].Play();
+            tracks[i].volume = 0;
 
             states[i] = new AudioState();
         }
     }
 
 	public void UpdateIntensity(float intensity, float time) {
-        numActiveTracks = Mathf.FloorToInt(intensity * clips.Length);
-        print(intensity);
         for (int i = 1; i < clips.Length; i++) {
-            if (numActiveTracks >= i) {
-                UpdateAudioState(i, 1, time);
-            } else {
-                UpdateAudioState(i, 0, time);
-            }
+            UpdateAudioState(i, Mathf.Clamp01(intensity * clips.Length - i), time);
         }
     }
 

@@ -1236,11 +1236,14 @@ MonoBehaviour:
   maxFollowDist: 120
   speed: 8
   speedIncreaseRate: 0.1
-  spawnDistance: -50
+  spawnDistance: 50
   swallowStartPos: {fileID: 4853425310207116}
   swallowEndPos: {fileID: 4762945938581424}
   lookPoint: {fileID: 4790864319015774}
   swallowTime: 6
+  lowIntensityDist: 100
+  highIntensityDist: 40
+  audioUpdateTime: 3
 --- !u!135 &135567205669613734
 SphereCollider:
   m_ObjectHideFlags: 1
