@@ -21,12 +21,16 @@ public class PlayerController :MonoBehaviour {
 	float lookAtTime;
 	float lookAtTimer = 0f;
 	bool lockCamera = false;
+	bool lerpActive = false;
 
 	List<GunController> gadgets = new List<GunController>();
 	List<InteractionController> interactionHands = new List<InteractionController>();
 
 	Rigidbody rb;
 	CapsuleCollider capsule;
+
+	// vehicles
+	Vehicle curVehicle;
 
 	// Use this for initialization
 	void Start () {
@@ -96,6 +100,24 @@ public class PlayerController :MonoBehaviour {
 		}
 	}
 
+	public void PlayerLerpTo (Vector3 point, float time) {
+		StartCoroutine(LerpToPos(point, time));
+	}
+
+	IEnumerator LerpToPos (Vector3 targetPos, float time) {
+		lerpActive = true;
+		Vector3 initialPos = transform.position;
+		float p = 0f;
+		while (p < 1f) {
+			transform.position = Vector3.Lerp(initialPos, targetPos, p);
+
+			yield return new WaitForEndOfFrame();
+
+			p += Time.deltaTime / time;
+		}
+		lerpActive = false;
+	}
+
 	public void CameraLookAt (Vector3 point, float time) {
 		initialRot = transform.rotation;
 		targetRot = Quaternion.LookRotation(point - transform.position) * Camera.main.transform.rotation;
@@ -129,7 +151,7 @@ public class PlayerController :MonoBehaviour {
 			//transform.position = -UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.CenterEye);
 			freezeOffset = Quaternion.Inverse(UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.CenterEye));
 			transform.rotation = lookAtOffset * freezeOffset;
-		} else {
+		} else if (lookAtActive) {
 			transform.rotation = lookAtOffset;
 		}
 
@@ -141,8 +163,8 @@ public class PlayerController :MonoBehaviour {
 
     void StartSwallow() {
         DisableHands();
-        Destroy(GetComponent<Collider>());
-
+		//Destroy(GetComponent<Collider>());
+		SetRigidbodyActive(false);
         FindObjectOfType<WormController>().StartSwallowSequence();
     }
 
@@ -156,7 +178,10 @@ public class PlayerController :MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("WormMouth")) {
             StartSwallow();
-        }
+        } else if (other.gameObject.CompareTag("Vehicle")) {
+			curVehicle = other.gameObject.GetComponent<Vehicle>();
+			curVehicle.EnterVehicle();
+		}
     }
 
 	// recentering
@@ -169,6 +194,14 @@ public class PlayerController :MonoBehaviour {
 	}
 
 	void Update () {
-		RecenterPlayer();
+		if (lookAtActive || lerpActive) {
+			return;
+		}
+
+		if (curVehicle != null) {
+			RecenterPlayer(true);
+		} else {
+			RecenterPlayer();
+		}
 	}
 }

@@ -24,6 +24,9 @@ public class InteractionJoystick : InteractionObject {
 			float x = Mathf.Clamp(rotBase.localEulerAngles.x / maxAngle, -1f, 1f);
 			float z = Mathf.Clamp(rotBase.localEulerAngles.z / maxAngle, -1f, 1f);
 			output = new Vector2(x, z);
+		} else {
+			transform.localRotation = Quaternion.identity;
+			output = Vector2.zero;
 		}
 	}
 }

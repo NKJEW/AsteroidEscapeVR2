@@ -64,9 +64,9 @@ public class InteractionController : MonoBehaviour {
 
     void GrabAttach (Transform target) {
         // make sure other hand is not grabbing
-        if (otherCon.state == State.grabing && otherCon.curInteractionObj.transform == target) {
-            return;
-        }
+        //if (otherCon.state == State.grabing) { // && otherCon.curInteractionObj.transform == target
+		//	return;
+        //}
 
         curInteractionObj = target.GetComponent<InteractionObject>();
         curInteractionObj.StartInteraction(this);

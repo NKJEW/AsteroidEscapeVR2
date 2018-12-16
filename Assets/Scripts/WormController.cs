@@ -103,28 +103,16 @@ public class WormController : MonoBehaviour {
     }
 
     IEnumerator SwallowSequence() {
-		Vector3 initialPos = player.transform.position;
-		float p = 0f;
-		while (p < 1f) {
-			player.transform.position = Vector3.Lerp(initialPos, swallowStartPos.position, p);
+		Vector3 camOffset = Camera.main.transform.localPosition;
 
-			yield return new WaitForEndOfFrame();
-
-			p += Time.deltaTime;
-		}
+		player.PlayerLerpTo(swallowStartPos.position - camOffset, 1f);
+		yield return new WaitForSeconds(1.01f);
 
         SceneFader.instance.FadeToScene(0, Color.black, swallowTime);
 
-		p = 0f;
-		Vector3 camOffset = Camera.main.transform.localPosition;
-        while (p < 1f) {
-			player.transform.position = Vector3.Lerp(swallowStartPos.position, swallowEndPos.position, p) - camOffset;
-
-			yield return new WaitForEndOfFrame();
-
-			p += (Time.deltaTime / swallowTime);
-        }
-
+		player.PlayerLerpTo(swallowEndPos.position - camOffset, swallowTime);
+		yield return new WaitForSeconds(swallowTime);
+        
         OnSwallowComplete();
     }
 

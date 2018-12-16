@@ -8,8 +8,10 @@ public class Vehicle : MonoBehaviour {
     public float tiltSpeed;
     public float verticalSpeed;
     public Transform seat;
+	public InteractionObject joy;
+	public InteractionObject speedJoy;
 
-    bool isActive;
+	bool isActive;
 
     Rigidbody rb;
     PlayerController player;
@@ -17,30 +19,37 @@ public class Vehicle : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody>();
         player = FindObjectOfType<PlayerController>();
-        EnterVehicle();
+        //EnterVehicle();
     }
 
     public void EnterVehicle() {
-        player.transform.position = seat.transform.position;
+		player.SetRigidbodyActive(false);
+		player.PlayerLerpTo(seat.position - Camera.main.transform.localPosition, 1f);
+		//player.CameraLookAt(player.transform.position + transform.forward, 1f);
+        //player.transform.position = seat.transform.position;
         player.transform.parent = seat.transform;
         player.EnableHands(PlayerController.HandType.interactionHands);
-        player.SetRigidbodyActive(false);
         isActive = true;
-        rb.velocity = new Vector3(0, 0, baseForwardSpeed);
+        //rb.velocity = new Vector3(0, 0, baseForwardSpeed);
     }
 
-    void Update() {
-        player.SetRigidbodyActive(false);
-        GetMovementInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
-    }
+	private void Update () {
+		if (isActive) {
+			GetMovementInput(joy.output);
+			GetBoosterInput(speedJoy.output);
+			//Vector2 tempInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+			//GetMovementInput(tempInput);
+			//GetBoosterInput(Vector2.right);
+		}
+	}
 
-    public void GetMovementInput(Vector2 input) {
-        rb.angularVelocity = new Vector3(rb.angularVelocity.x, rb.angularVelocity.y, -input.x * tiltSpeed);
-        rb.velocity = transform.rotation * new Vector3(rb.velocity.x, input.y * verticalSpeed, rb.velocity.z);
+	public void GetMovementInput(Vector2 input) {
+		transform.Rotate(new Vector3(input.y * tiltSpeed * Time.deltaTime, 0f, -input.x * tiltSpeed * Time.deltaTime), Space.Self);
+        //rb.angularVelocity = new Vector3(input.y * tiltSpeed, 0f, -input.x * tiltSpeed);
+    //    rb.velocity = transform.rotation * new Vector3(rb.velocity.x, input.y * verticalSpeed, rb.velocity.z);
     }
 
     public void GetBoosterInput(Vector2 input) {
-        float val = (input.x + 1) / 2f;
-        rb.velocity = transform.rotation * new Vector3(rb.velocity.x, rb.velocity.y, Mathf.Lerp(baseForwardSpeed, maxForwardSpeed, input.x));
+		transform.Translate(Vector3.forward * Mathf.LerpUnclamped(baseForwardSpeed, maxForwardSpeed, input.x) * Time.deltaTime);
     }
 }
