@@ -129,6 +129,7 @@ public class WormController : MonoBehaviour {
     void OnSwallowComplete() {
         print("u ded");
         state = State.Finished;
+        SceneFader.instance.FadeToScene(0, Color.black);
     }
 
     float CalculateMusicIntensity() {
