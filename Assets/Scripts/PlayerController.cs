@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour {
 
     List<GunController> guns = new List<GunController>();
 
+    Rigidbody rb;
+
 	// Use this for initialization
 	void Start () {
 		for (int i = 0; i < hands.Length; i++) {
@@ -37,6 +39,8 @@ public class PlayerController : MonoBehaviour {
 
 		guns[0].conID = 0;
 		guns[1].conID = 1;
+
+        rb = GetComponent<Rigidbody>();
 	}
 
 	public void CameraLookAt (Vector3 point, float time) {
@@ -83,14 +87,29 @@ public class PlayerController : MonoBehaviour {
 	}
 
     void StartSwallow() {
-        guns[0].Detach();
-        Destroy(guns[0].gameObject);
-        guns[1].Detach();
-        Destroy(guns[1].gameObject);
-		GetComponent<Rigidbody>().isKinematic = true;
+        DisableGuns();
         Destroy(GetComponent<Collider>());
 
         FindObjectOfType<WormController>().StartSwallowSequence();
+    }
+
+    public void DisableGuns() {
+        guns[0].Detach();
+        guns[0].gameObject.SetActive(false);
+        guns[1].Detach();
+        guns[1].gameObject.SetActive(false);
+    }
+
+    public void EnableGuns() {
+        guns[0].gameObject.SetActive(true);
+        guns[1].gameObject.SetActive(true);
+    }
+
+    public void SetRigidbodyActive(bool isActive) {
+        rb.isKinematic = !isActive;
+        if (!isActive) {
+            rb.velocity = Vector3.zero;
+        }
     }
 
     void OnTriggerEnter(Collider other) {
