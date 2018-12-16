@@ -4,6 +4,7 @@ using UnityEngine;
 using Valve.VR;
 
 public class GunController : MonoBehaviour {
+	public int conID;
 	enum State
 	{
 		detached,
@@ -40,6 +41,7 @@ public class GunController : MonoBehaviour {
 
 	// references
 	public GunController otherGun;
+	HandController hand;
 	Animator grabAnimator;
 	Transform grabber;
 	Transform spawn;
@@ -50,6 +52,7 @@ public class GunController : MonoBehaviour {
 	CapsuleCollider capsule;
 	
 	void Start() {
+		hand = transform.parent.GetComponent<HandController>();
 		spawn = transform.Find("Offset").Find("Spawn");
 		grabber = transform.Find("Offset").Find("Grabber");
 		grabAnimator = grabber.GetComponent<Animator>();
@@ -74,6 +77,8 @@ public class GunController : MonoBehaviour {
 
 		Vector3 diff = grabed.GetAnchorPos() - spawn.position;
 		lastDist = diff.magnitude;
+
+		hand.SetHaptic(HandController.HapticType.grapple);
 	}
 
 	void Extend (AttachData data) {
@@ -118,6 +123,8 @@ public class GunController : MonoBehaviour {
 		lastPos = spawn.position;
 
 		grabAnimator.SetBool("IsGrabbing", true);
+
+		hand.SetHaptic(HandController.HapticType.grab);
 	}
 
 	void EndGrab (bool attached)
@@ -148,6 +155,8 @@ public class GunController : MonoBehaviour {
 		} else {
 			Retract();
 		}
+
+		hand.SetHaptic(HandController.HapticType.detach);
 	}
 
 	void Retract () {
@@ -165,6 +174,8 @@ public class GunController : MonoBehaviour {
 			grabed.DestoryAnchor();
 			grabed = null;
 		}
+
+		hand.SetHaptic(HandController.HapticType.retractDone);
 	}
 
 	void GetNewAnchor (Vector3 position, Transform obj)

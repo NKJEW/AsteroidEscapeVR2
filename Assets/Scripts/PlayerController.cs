@@ -32,8 +32,8 @@ public class PlayerController : MonoBehaviour {
 		guns[0].otherGun = guns[1];
 		guns[1].otherGun = guns[0];
 
-		// temp
-		//CameraLookAt(Vector3.right * 10f, 5f);
+		guns[0].conID = 0;
+		guns[1].conID = 1;
 	}
 
 	public void CameraLookAt (Vector3 point, float time) {

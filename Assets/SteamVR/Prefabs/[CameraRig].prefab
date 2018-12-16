@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - component: {fileID: 458974}
   - component: {fileID: 114000010876603736}
+  - component: {fileID: 114955237323771120}
   m_Layer: 10
   m_Name: LeftHand
   m_TagString: Untagged
@@ -43,6 +44,7 @@ GameObject:
   m_Component:
   - component: {fileID: 402434}
   - component: {fileID: 114000010110554832}
+  - component: {fileID: 114227859194356976}
   m_Layer: 10
   m_Name: RightHand
   m_TagString: Untagged
@@ -286,6 +288,19 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Valve.VR.SteamVR_Behaviour_PoseEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114227859194356976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d89b92b3fcaea4d9cb4fe19f52a69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handType: 2
+  hapticAction: {fileID: 11400000, guid: 6addc7964af08f14889a8a10e5c12e23, type: 2}
 --- !u!114 &114257747587911564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,6 +316,19 @@ MonoBehaviour:
   hands:
   - {fileID: 458974}
   - {fileID: 402434}
+--- !u!114 &114955237323771120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70d89b92b3fcaea4d9cb4fe19f52a69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handType: 1
+  hapticAction: {fileID: 11400000, guid: 6addc7964af08f14889a8a10e5c12e23, type: 2}
 --- !u!136 &136957173204059048
 CapsuleCollider:
   m_ObjectHideFlags: 1
