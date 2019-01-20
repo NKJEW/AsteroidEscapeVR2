@@ -44,11 +44,20 @@ public class ExplosionGenerator : MonoBehaviour {
         StartCoroutine(LightSequence());
 
         Collider[] allCols = Physics.OverlapSphere(transform.position, size * 3f);
+		bool alreadyHitWorm = false;
         foreach (Collider col in allCols) {
-			WormController possibleWorm = col.GetComponentInParent<WormController>();
-			if (isPlayerBomb && possibleWorm != null && Vector3.Distance(transform.position, col.transform.position) <= size) {
-				possibleWorm.HitByBomb();
+			if (isPlayerBomb) {
+				if (Vector3.Distance(transform.position, col.transform.position) <= size) { // in damaging radius
+					WormController possibleWorm = col.GetComponentInParent<WormController>();
+					if (!alreadyHitWorm && possibleWorm != null) {
+						possibleWorm.HitByBomb();
+						alreadyHitWorm = true;
+					} else if (col.tag == "Asteroid") {
+						col.GetComponent<AstriodController>().Explode();
+					}
+				}
 			}
+			
 
             Rigidbody rb = col.GetComponentInParent<Rigidbody>();
             if (rb != null) {

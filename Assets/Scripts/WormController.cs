@@ -137,7 +137,6 @@ public class WormController : MonoBehaviour {
 
 	// vitals 
 	public void HitByBomb () {
-		print("hit");
 		health--;
 		if (health <= 0) {
 			Die();
@@ -152,7 +151,7 @@ public class WormController : MonoBehaviour {
 
 	void Die () {
 		Destroy(transform.Find("SwallowZone").gameObject);
-		StartCoroutine(SlowAnimation(2.5f));
+		StartCoroutine(SlowAnimation(5f));
 		deathSound.Play();
 
 

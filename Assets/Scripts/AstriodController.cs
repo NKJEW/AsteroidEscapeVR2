@@ -31,16 +31,20 @@ public class AstriodController : MonoBehaviour {
     //temporary behavior
     void OnCollisionEnter(Collision other) {
 		if (other.gameObject.CompareTag("Deadly")) {
-            TerrainGenerator.instance.CreateExplosion(transform.position, 2.5f + size * 2.5f, defaultExplosionMat, defaultExplosionLightColor);
-            //newParticles.GetComponent<Rigidbody>().velocity = other.relativeVelocity;
-			if (size > 0) { //0 is a fragment
-				CreateDebris(other.relativeVelocity.magnitude);
-			}
-
-			GetComponent<Grabable>().ObjectDestroyed();
-			Destroy(gameObject);
+			Explode(other.relativeVelocity.magnitude);
 		}
     }
+
+	public void Explode (float relativeVel = 10f) {
+		TerrainGenerator.instance.CreateExplosion(transform.position, 2.5f + size * 2.5f, defaultExplosionMat, defaultExplosionLightColor);
+		//newParticles.GetComponent<Rigidbody>().velocity = other.relativeVelocity;
+		if (size > 0) { //0 is a fragment
+			CreateDebris(relativeVel);
+		}
+
+		GetComponent<Grabable>().ObjectDestroyed();
+		Destroy(gameObject);
+	}
 
     void CreateDebris(float collisionForce) {
         int numDebris = size * debrisFactor;
