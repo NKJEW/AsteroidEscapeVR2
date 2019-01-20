@@ -10,6 +10,7 @@ public class ExplosionGenerator : MonoBehaviour {
     public AnimationCurve lightCurve;
 
 	public float maxLoadDistance;
+    public float explosionForce;
 
     float size;
 
@@ -40,6 +41,14 @@ public class ExplosionGenerator : MonoBehaviour {
         explosionLight = GetComponent<Light>();
         explosionLight.color = lightColor;
         StartCoroutine(LightSequence());
+
+        Collider[] allCols = Physics.OverlapSphere(transform.position, size);
+        foreach (Collider col in allCols) {
+            Rigidbody rb = col.GetComponentInParent<Rigidbody>();
+            if (rb != null) {
+                rb.AddExplosionForce(explosionForce, transform.position, size);
+            }
+        }
     }
 
     IEnumerator LightSequence() {
