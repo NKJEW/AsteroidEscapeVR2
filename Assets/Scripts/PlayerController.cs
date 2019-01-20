@@ -32,6 +32,13 @@ public class PlayerController :MonoBehaviour {
 	// vehicles
 	Vehicle curVehicle;
 
+	// time slow
+	[Header("Time Slow")]
+	public AnimationCurve timeCurve;
+	public float timeSlowLength;
+	float timeSlowTimer;
+	bool slowActive = false;
+
 	// Use this for initialization
 	void Start () {
 		for (int i = 0; i < hands.Length; i++) {
@@ -203,5 +210,35 @@ public class PlayerController :MonoBehaviour {
 		} else {
 			RecenterPlayer();
 		}
+
+		if (Input.GetKeyDown(KeyCode.T)) {
+			SlowTimeStart();
+		}
+
+		// time slow
+		if (slowActive) {
+			timeSlowTimer += Time.unscaledDeltaTime;
+			if (timeSlowTimer >= timeSlowLength) {
+				SlowTimeEnd();
+			} else {
+				float ratio = timeSlowTimer / timeSlowLength;
+				float targetTimeScale = Mathf.Clamp01(timeCurve.Evaluate(ratio));
+				Time.timeScale = targetTimeScale;
+				MusicManager.instance.UpdatePitch(targetTimeScale * targetTimeScale);
+			}
+		}
 	}
+
+	// time slow
+	public void SlowTimeStart () {
+		if (!slowActive) {
+			timeSlowTimer = 0f;
+			slowActive = true;
+		}
+	}
+
+	void SlowTimeEnd () {
+		slowActive = false;
+		Time.timeScale = 1f;
+	} 
 }

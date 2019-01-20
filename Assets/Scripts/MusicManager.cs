@@ -51,7 +51,13 @@ public class MusicManager : MonoBehaviour {
         }
     }
 
-    void LateUpdate() {
+	public void UpdatePitch (float pitch) {
+		for (int i = 1; i < clips.Length; i++) {
+			tracks[i].pitch = pitch;
+		}
+	}
+
+	void LateUpdate() {
         for (int i = 0; i < clips.Length; i++) {
             if (states[i].active) {
                 UpdateTrack(i);
