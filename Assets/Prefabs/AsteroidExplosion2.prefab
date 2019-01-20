@@ -185,7 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5b0b714b5ce4bcea1d825fca549908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redMat: {fileID: 2100000, guid: 5b3f11175df6740349762a75a0b3f38d, type: 2}
   smokeMat: {fileID: 2100000, guid: f74a6b368f0804fa2bea451792923aeb, type: 2}
   particlePrefab: {fileID: 1228078894075906, guid: 45068018f69144a24a3ed024cdca4a65,
     type: 2}
@@ -223,4 +222,28 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxLoadDistance: 60
-  size: 8
+  explosionForce: 300000
+  falloffCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.06383033
+      outSlope: -0.06383033
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.19583334
+    - serializedVersion: 3
+      time: 1
+      value: 0.012500167
+      inSlope: -2.7692285
+      outSlope: -2.7692285
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10833335
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

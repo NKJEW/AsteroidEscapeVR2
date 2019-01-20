@@ -240,5 +240,6 @@ public class PlayerController :MonoBehaviour {
 	void SlowTimeEnd () {
 		slowActive = false;
 		Time.timeScale = 1f;
-	} 
+		MusicManager.instance.UpdatePitch(1f);
+	}
 }

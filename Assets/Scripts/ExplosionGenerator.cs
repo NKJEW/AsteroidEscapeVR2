@@ -11,6 +11,7 @@ public class ExplosionGenerator : MonoBehaviour {
 
 	public float maxLoadDistance;
     public float explosionForce;
+	public AnimationCurve falloffCurve;
 
     float size;
 
@@ -35,18 +36,21 @@ public class ExplosionGenerator : MonoBehaviour {
             Vector3 offset = Random.onUnitSphere * Random.Range(1.2f, 1.4f) * size;
             GameObject newPart = Instantiate(particlePrefab, transform.position + offset, Random.rotation);
             newPart.GetComponent<Renderer>().material = smokeMat;
-            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0.2f, 0.3f), Random.Range(1.8f, 2.3f), Random.Range(0.7f, 0.9f) * size / 2, offset);
+            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0.2f, 0.3f), Random.Range(1.8f, 2.3f), Random.Range(0.7f, 0.9f) * size / 1.25f, offset);
         }
 
         explosionLight = GetComponent<Light>();
         explosionLight.color = lightColor;
         StartCoroutine(LightSequence());
 
-        Collider[] allCols = Physics.OverlapSphere(transform.position, size);
+        Collider[] allCols = Physics.OverlapSphere(transform.position, size * 3);
         foreach (Collider col in allCols) {
             Rigidbody rb = col.GetComponentInParent<Rigidbody>();
             if (rb != null) {
-                rb.AddExplosionForce(explosionForce, transform.position, size);
+				Vector3 diff = (rb.transform.position - transform.position);
+				float magnitude = falloffCurve.Evaluate(Mathf.Clamp01(diff.magnitude / (size*3)));
+
+                rb.AddForce(explosionForce * diff.normalized * magnitude);
             }
         }
     }
