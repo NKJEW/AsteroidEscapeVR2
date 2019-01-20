@@ -38,6 +38,10 @@ public class SegmentManager : MonoBehaviour {
 
     void Update () {
         float speed = followRb.velocity.magnitude;
+		if (speed <= 0.05f) {
+			return;
+		}
+
         float timeStep = (speed / segmentLength) * Time.deltaTime;
         timeRatio += timeStep;
         if (timeRatio >= 1f) {
@@ -51,7 +55,6 @@ public class SegmentManager : MonoBehaviour {
     }
 
     void TargetReached () {
-        print("reached");
         targetPositions.RemoveAt(targetPositions.Count - 1);
         targetPositions.Insert(0, followPoint.position);
     }

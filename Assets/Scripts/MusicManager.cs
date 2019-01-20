@@ -39,9 +39,10 @@ public class MusicManager : MonoBehaviour {
             tracks[i].clip = clips[i];
             tracks[i].loop = true;
             tracks[i].Play();
-            tracks[i].volume = 0;
+			tracks[i].volume = 0;
+			tracks[i].priority = 0;
 
-            states[i] = new AudioState();
+			states[i] = new AudioState();
         }
     }
 

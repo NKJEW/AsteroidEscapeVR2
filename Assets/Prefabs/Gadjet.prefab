@@ -1100,6 +1100,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 823
   grabed: {fileID: 0}
+  puffParticle: {fileID: 1228078894075906, guid: 45068018f69144a24a3ed024cdca4a65,
+    type: 2}
+  puffMat: {fileID: 2100000, guid: 0123d94127a50434795d09dc7a5f63ca, type: 2}
   grappleSound: {fileID: 82873464714550368}
   holdSound: {fileID: 82211953531712634}
   lowPitch: 0.8

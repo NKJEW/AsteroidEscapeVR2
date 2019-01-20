@@ -218,15 +218,16 @@ public class GunController : MonoBehaviour {
 		Bomb bomb = grabed as Bomb;
 		bomb.transform.parent = null;
 		bomb.Launch(rb.velocity);
-        CreatePuff();
+		//CreatePuff();
 		rb.AddForce(-bomb.transform.forward * bombLaunchRecoilForce);
 	}
 
-    void CreatePuff() {
-        for (int i = 0; i < 3; i++) {
-            Vector3 offset = Random.insideUnitSphere * 0.1f;
+	void CreatePuff() {
+        for (int i = 0; i < 6; i++) {
+            Vector3 offset = Random.insideUnitSphere * 0.05f;
             GameObject newPart = Instantiate(puffParticle, spawn.position + offset, Random.rotation);
-            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0f, 0.2f), 0.5f, Random.Range(0.1f, 0.3f), offset, rb.velocity);
+			newPart.GetComponent<Renderer>().material = puffMat;
+            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0f, 0.2f), 1f, Random.Range(0.1f, 0.15f), offset, rb.velocity);
         }
     }
 

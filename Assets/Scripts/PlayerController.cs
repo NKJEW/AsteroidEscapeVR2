@@ -55,8 +55,8 @@ public class PlayerController :MonoBehaviour {
 
 		gadgets[0].otherGun = gadgets[1];
 		gadgets[1].otherGun = gadgets[0];
-		interactionHands[0] = interactionHands[1];
-		interactionHands[1] = interactionHands[0];
+		interactionHands[0].otherCon = interactionHands[1];
+		interactionHands[1].otherCon = interactionHands[0];
 
 		gadgets[0].conID = 0;
 		gadgets[1].conID = 1;
