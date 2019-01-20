@@ -211,10 +211,6 @@ public class PlayerController :MonoBehaviour {
 			RecenterPlayer();
 		}
 
-		if (Input.GetKeyDown(KeyCode.T)) {
-			SlowTimeStart();
-		}
-
 		// time slow
 		if (slowActive) {
 			timeSlowTimer += Time.unscaledDeltaTime;

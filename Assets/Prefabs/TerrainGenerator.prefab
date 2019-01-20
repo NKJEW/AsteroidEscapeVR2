@@ -69,7 +69,7 @@ MonoBehaviour:
   maxFlamingSpeed: 35
   chaosIncreaseRate: 0.5
   bombPrefab: {fileID: 1913846252298982, guid: b3b8e302c86a0bb45a5f4e58a6cc55af, type: 2}
-  bombProbability: 0.05
+  bannedBombZone: 80
   asteroidPrefab: {fileID: 1132267318016648, guid: 354dca690f0d04945bdbf300d1394ca0,
     type: 2}
   asteroidExplosion: {fileID: 1739953425538750, guid: 98e9182034db44ffcb6adaa83c6af344,

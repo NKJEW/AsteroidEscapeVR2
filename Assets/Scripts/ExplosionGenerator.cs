@@ -60,7 +60,7 @@ public class ExplosionGenerator : MonoBehaviour {
 			
 
             Rigidbody rb = col.GetComponentInParent<Rigidbody>();
-            if (rb != null) {
+            if (rb != null && col.tag != "Bomb") {
 				Vector3 diff = (rb.transform.position - transform.position);
 				float magnitude = falloffCurve.Evaluate(Mathf.Clamp01(diff.magnitude / (size*3)));
 
