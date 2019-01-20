@@ -29,6 +29,7 @@ public class MusicManager : MonoBehaviour {
     void Start() {
         InitializeTracks();
         tracks[0].volume = maxTrackVolume; //hack to make the base track start
+        StartCoroutine(SyncMusic());
     }
 
     void InitializeTracks() {
@@ -83,5 +84,15 @@ public class MusicManager : MonoBehaviour {
         newAudioState.timer = 0;
         newAudioState.active = true;
         states[trackId] = newAudioState;
+    }
+
+    IEnumerator SyncMusic() {
+        while (true) {
+            for (int i = 1; i < tracks.Length; i++) {
+                tracks[i].timeSamples = tracks[0].timeSamples;
+            }
+
+            yield return null;
+        }
     }
 }
