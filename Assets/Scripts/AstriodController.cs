@@ -33,7 +33,7 @@ public class AstriodController : MonoBehaviour {
 				CreateDebris(other.relativeVelocity.magnitude);
 			}
 
-			GetComponent<Grabable>().AsteroidDestroyed();
+			GetComponent<Grabable>().ObjectDestroyed();
 			Destroy(gameObject);
 		}
     }

@@ -11,7 +11,8 @@ public class GunController : MonoBehaviour {
 		extending,
 		retracting,
 		grappling,
-		grabing
+		grabing,
+		bombing
 	};
 	State state = State.detached;
 
@@ -125,28 +126,36 @@ public class GunController : MonoBehaviour {
 		otherGun.OtherGunGrabbed(data.obj);
 		GetNewAnchor(data.pos, data.obj);
 
-		state = State.grabing;
-        holdSound.Stop();
-		rb.isKinematic = true;
+		if (data.obj.tag == "Bomb") {
+			AttachBomb(data.obj.GetComponent<Bomb>());
+		} else {
+			state = State.grabing;
+			holdSound.Stop();
+			rb.isKinematic = true;
 
-		grabOffset = rb.transform.position - data.pos;
-		lastPos = spawn.position;
+			grabOffset = rb.transform.position - data.pos;
+			lastPos = spawn.position;
 
-		grabAnimator.SetBool("IsGrabbing", true);
+			grabAnimator.SetBool("IsGrabbing", true);
+		}
 
 		hand.SetHaptic(HandController.HapticType.grab);
 	}
 
-	void EndGrab (bool attached)
+	void EndGrab (bool attached, bool hasBomb = false)
 	{
-		rb.isKinematic = false;
 		state = State.detached;
 
-		if (!attached) {
-			// calculate departing velocity
-			Vector3 diff = lastPos - spawn.position;
-			Vector3 force = Vector3.ClampMagnitude(diff * grabThrowForceMul, maxThrowForce);
-			rb.AddForce(force);
+		if (hasBomb) {
+			LaunchBomb();
+		} else {
+			rb.isKinematic = false;
+			if (!attached) {
+				// calculate departing velocity
+				Vector3 diff = lastPos - spawn.position;
+				Vector3 force = Vector3.ClampMagnitude(diff * grabThrowForceMul, maxThrowForce);
+				rb.AddForce(force);
+			}
 		}
 
 		if (grabed != null) {
@@ -161,8 +170,8 @@ public class GunController : MonoBehaviour {
 	{
         holdSound.Stop();	
 
-		if (state == State.grabing) {
-			EndGrab(attached);
+		if (state == State.grabing || state == State.bombing) {
+			EndGrab(attached, state == State.bombing);
 		} else {
 			Retract();
 		}
@@ -187,6 +196,23 @@ public class GunController : MonoBehaviour {
 		}
 
 		hand.SetHaptic(HandController.HapticType.retractDone);
+	}
+
+	void AttachBomb (Bomb bomb) {
+		bomb.Attach();
+
+		Transform bombPoint = transform.Find("Offset").Find("BombPoint");
+		bomb.transform.parent = bombPoint;
+		bomb.transform.localPosition = Vector3.zero;
+		bomb.transform.rotation = bombPoint.rotation;
+
+		state = State.bombing;
+	}
+
+	void LaunchBomb () {
+		Bomb bomb = grabed as Bomb;
+		bomb.transform.parent = null;
+		bomb.Launch(rb.velocity);
 	}
 
 	void GetNewAnchor (Vector3 position, Transform obj)

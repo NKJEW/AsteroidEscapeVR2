@@ -5,12 +5,15 @@ using UnityEngine;
 public class Grabable : MonoBehaviour {
 	Transform anchor = null;
 	bool hasAnchor = false;
-	Rigidbody rb;
+	protected Rigidbody rb;
 	GunController attachedCon;
 
 	private void Start () {
 		rb = GetComponent<Rigidbody>();
+		Init();
 	}
+
+	protected virtual void Init () { }
 
 	public Vector3 GetAnchorPos () {
 		return anchor.position;
@@ -41,7 +44,7 @@ public class Grabable : MonoBehaviour {
 		attachedCon = null;
 	}
 
-	public void AsteroidDestroyed () {
+	public void ObjectDestroyed () {
 		if (attachedCon != null) {
 			attachedCon.Detach();
 		}

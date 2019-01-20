@@ -11,6 +11,8 @@ ModelImporter:
     100010: gunClaw
     100012: gunGrappler
     100014: gunMain
+    100016: bombCap
+    100018: bombCore
     400000: Cube
     400002: Cube_001
     400004: Cube_002
@@ -19,6 +21,8 @@ ModelImporter:
     400010: gunClaw
     400012: gunGrappler
     400014: gunMain
+    400016: bombCap
+    400018: bombCore
     2100000: GunPlug
     2100002: GunMain
     2100004: GunGlow
@@ -32,6 +36,8 @@ ModelImporter:
     2300008: gunClaw
     2300010: gunGrappler
     2300012: gunMain
+    2300014: bombCap
+    2300016: bombCore
     3300000: Cube
     3300002: Cube_001
     3300004: Cube_002
@@ -39,6 +45,8 @@ ModelImporter:
     3300008: gunClaw
     3300010: gunGrappler
     3300012: gunMain
+    3300014: bombCap
+    3300016: bombCore
     4300000: Cube_003
     4300002: Cube_002
     4300004: Cube_001
@@ -46,6 +54,8 @@ ModelImporter:
     4300008: gunClaw
     4300010: gunGrappler
     4300012: gunMain
+    4300014: bombCore
+    4300016: bombCap
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
