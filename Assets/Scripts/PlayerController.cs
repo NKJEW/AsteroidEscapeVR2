@@ -223,6 +223,12 @@ public class PlayerController :MonoBehaviour {
 				MusicManager.instance.UpdatePitch(targetTimeScale * targetTimeScale);
 			}
 		}
+
+		// temp
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			TerrainGenerator.instance.GenerateTerrain();
+			ShipController.instance.OpenHanger();
+		}
 	}
 
 	// time slow

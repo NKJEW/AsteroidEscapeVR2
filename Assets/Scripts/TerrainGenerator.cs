@@ -5,6 +5,8 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour {
     public static TerrainGenerator instance;
 
+	bool active = false;
+
     public float terrainStep;
     public float beltRadius;
     public float chunkSize;
@@ -51,9 +53,14 @@ public class TerrainGenerator : MonoBehaviour {
 
     void Start() {
         playerRb = FindObjectOfType<PlayerController>().GetComponent<Rigidbody>();
-        nextLaunch = Time.time + Random.Range(maxChaosLaunchWait, minChaosLaunchWait);
-        UpdateTerrain();
     }
+
+	public void GenerateTerrain () {
+		active = true;
+
+		nextLaunch = Time.time + Random.Range(maxChaosLaunchWait, minChaosLaunchWait);
+		UpdateTerrain();
+	}
 
     void SetupAsteroidDatas() {
         int curMaxSize = 0;
@@ -104,6 +111,10 @@ public class TerrainGenerator : MonoBehaviour {
     }
 
     void Update() {
+		if (!active) {
+			return;
+		}
+
         if (Time.time > nextLaunch) {
 			float curChaos = GetChaosFactor();
 			float curVariance = Mathf.Lerp(launchWaitVariance, 0.7f, curChaos);
@@ -143,6 +154,10 @@ public class TerrainGenerator : MonoBehaviour {
     }
 
     void LateUpdate() {
+		if (!active) {
+			return;
+		}
+
         if (playerRb.transform.position.z + chunkSize > GetPosForChunkId(curChunkId - 1)) { // if we are close to the "next chunk" we should make a new one
             UpdateTerrain();
         }
