@@ -16,6 +16,8 @@ ModelImporter:
     2100004: ShipHighlights
     2100006: ShipInterior
     2100008: unnamed
+    2100010: ShipGlow
+    2100012: ShitDoor
     2300000: Cube
     2300002: shipDoor
     2300004: shipMain

@@ -455,7 +455,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1096797447508242}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 12.850006}
+  m_LocalPosition: {x: 0, y: 0, z: 14.360001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4853425310207116}
@@ -487,7 +487,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1496754259752500}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0, z: 7.1897736}
+  m_LocalPosition: {x: 0, y: 0, z: 8.699768}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4109416645022016}
@@ -664,7 +664,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1373715993924908}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 11.110001}
+  m_LocalPosition: {x: 0, y: 0, z: 12.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4285964737628834}
@@ -693,6 +693,8 @@ MeshRenderer:
   - {fileID: 2100000, guid: 5fa1aa5754f24b04e8dec2ad020d0275, type: 3}
   - {fileID: 2100002, guid: 5fa1aa5754f24b04e8dec2ad020d0275, type: 3}
   - {fileID: 2100004, guid: 5fa1aa5754f24b04e8dec2ad020d0275, type: 3}
+  - {fileID: 2100006, guid: 5fa1aa5754f24b04e8dec2ad020d0275, type: 3}
+  - {fileID: 2100008, guid: 5fa1aa5754f24b04e8dec2ad020d0275, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1396,9 +1398,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startFollowDist: 0
-  maxFollowDist: 120
+  maxFollowDist: 150
   speed: 8
   speedIncreaseRate: 0.1
+  minTargetUpdateTime: 5
+  maxTargetUpdateTime: 10
   spawnDistance: 50
   swallowStartPos: {fileID: 4853425310207116}
   swallowEndPos: {fileID: 4762945938581424}

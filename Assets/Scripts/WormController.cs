@@ -84,12 +84,14 @@ public class WormController : MonoBehaviour {
                     }
 
                     Quaternion goalRot = Quaternion.LookRotation((curTarget - transform.position).normalized, Vector3.up);
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, goalRot, 30f * Time.deltaTime);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, goalRot, 40f * Time.deltaTime);
                 }
 
                 rb.velocity = transform.forward * curSpeed;
 
-                speed += speedIncreaseRate * Time.deltaTime;
+				if (speed < 40f) {
+					speed += speedIncreaseRate * Time.deltaTime;
+				}
 
                 if (Time.time > nextBellow) {
                     Bellow();
@@ -113,8 +115,8 @@ public class WormController : MonoBehaviour {
     void UpdateTarget() {
         nextTargetUpdate = Time.time + Random.Range(minTargetUpdateTime, maxTargetUpdateTime);
 
-        float zPos = transform.position.z + (speed * maxTargetUpdateTime) + 50f; //add some give so that the worm is never waiting
-        Vector2 circlePos = Random.insideUnitCircle * 15f;
+        float zPos = transform.position.z + 50f; //add some give so that the worm is never waiting
+        Vector2 circlePos = Random.insideUnitCircle.normalized * Random.Range(20f, 30f);
         nextTarget = new Vector3(circlePos.x, circlePos.y, zPos);
     }
 
@@ -165,7 +167,7 @@ public class WormController : MonoBehaviour {
             Bellow();
         }
 
-        return Mathf.Clamp01((speed / 30) + ((dist - lowIntensityDist) / (highIntensityDist - lowIntensityDist))); //linear falloff
+        return Mathf.Clamp01((speed / 20f) + ((dist - lowIntensityDist) / (highIntensityDist - lowIntensityDist))); //linear falloff
     }
 
 	// vitals 
