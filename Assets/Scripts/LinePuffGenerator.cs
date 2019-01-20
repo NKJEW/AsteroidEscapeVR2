@@ -9,7 +9,7 @@ public class LinePuffGenerator :MonoBehaviour {
 	public Material puffMat;
 
 	void Start () {
-		Init(6f);
+		//Init(6f);
 	}
 
 	public void Init (float density) {

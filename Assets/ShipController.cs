@@ -15,6 +15,8 @@ public class ShipController : MonoBehaviour {
 	public float spinForce;
 	public WindZone wind;
 	public ParticleSystem airParticles;
+	public AudioSource alarm;
+	public LinePuffGenerator puffs;
 
 	Animator anim;
 
@@ -29,6 +31,7 @@ public class ShipController : MonoBehaviour {
 		anim.SetTrigger("Open");
 		ChangeLightColor(emergencyColor);
 		SuckDebris();
+		alarm.Play();
 	}
 
 	private void ChangeLightColor (Color newColor) {
@@ -47,6 +50,7 @@ public class ShipController : MonoBehaviour {
 		}
 		wind.windMain = 30f;
 		airParticles.Stop();
+		puffs.Init(6f);
 
 		StartCoroutine(SuckObject(FindObjectOfType<PlayerController>().GetComponent<Rigidbody>(), 1.5f));
 	}
