@@ -1091,6 +1091,7 @@ MonoBehaviour:
   grappleTolerence: 2
   grabTolerence: 0.2
   grabberSpeed: 100
+  bombLaunchRecoilForce: 150000
   swingMultiplier: 30
   mask:
     serializedVersion: 2

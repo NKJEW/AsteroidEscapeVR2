@@ -10,9 +10,16 @@ public class ExplosionGenerator : MonoBehaviour {
     Light explosionLight;
     public AnimationCurve lightCurve;
 
+	public float maxLoadDistance;
+
     public float size;
 
     void Start() {
+		if(Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) > maxLoadDistance) {
+			Destroy(gameObject);
+			return;
+		}
+
         int numGlowPieces = Random.Range(5, 7) * Mathf.CeilToInt(size / 2);
         for (int i = 0; i < numGlowPieces; i++) {
             Vector3 offset = Random.onUnitSphere * Random.Range(0.2f, 0.4f) * size;

@@ -27,9 +27,8 @@ public class AstriodController : MonoBehaviour {
     //temporary behavior
     void OnCollisionEnter(Collision other) {
 		if (other.gameObject.CompareTag("Deadly")) {
-			GameObject newParticles = Instantiate(TerrainGenerator.instance.asteroidExplosion, transform.position, Quaternion.identity);
+			TerrainGenerator.instance.CreateExplosion(transform.position, 2.5f + size * 2.5f);
             //newParticles.GetComponent<Rigidbody>().velocity = other.relativeVelocity;
-            newParticles.GetComponent<ExplosionGenerator>().size = 2.5f + size * 5f;
 			if (size > 0) { //0 is a fragment
 				CreateDebris(other.relativeVelocity.magnitude);
 			}

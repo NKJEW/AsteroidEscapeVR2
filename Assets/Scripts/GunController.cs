@@ -23,6 +23,7 @@ public class GunController : MonoBehaviour {
 	public float grappleTolerence;
 	public float grabTolerence;
 	public float grabberSpeed;
+	public float bombLaunchRecoilForce;
 	float grabberTime;
 	float grabberTimer = 0f;
 	float lastDist;
@@ -213,6 +214,7 @@ public class GunController : MonoBehaviour {
 		Bomb bomb = grabed as Bomb;
 		bomb.transform.parent = null;
 		bomb.Launch(rb.velocity);
+		rb.AddForce(-bomb.transform.forward * bombLaunchRecoilForce);
 	}
 
 	void GetNewAnchor (Vector3 position, Transform obj)

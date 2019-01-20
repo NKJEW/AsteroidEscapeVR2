@@ -72,7 +72,7 @@ MonoBehaviour:
   bombProbability: 0.1
   asteroidPrefab: {fileID: 1132267318016648, guid: 354dca690f0d04945bdbf300d1394ca0,
     type: 2}
-  asteroidExplosion: {fileID: 1701965939655616, guid: 174ff6d23657b4aadbb594e8056d092d,
+  asteroidExplosion: {fileID: 1739953425538750, guid: 98e9182034db44ffcb6adaa83c6af344,
     type: 2}
   flamingAsteroidPrefab: {fileID: 1494026229611534, guid: c2a519908e9c1df4795889d6d73adcde,
     type: 2}

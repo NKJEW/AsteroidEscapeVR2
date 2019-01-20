@@ -32,7 +32,7 @@ public class Bomb : Grabable {
 
 		rb.isKinematic = false;
 		rb.drag = 0f;
-		rb.velocity = (transform.forward * launchSpeed) + inheritVel;
+		rb.velocity = (transform.forward * launchSpeed);
 		rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.VelocityChange);
 
 		anim.SetTrigger("Arm");
@@ -60,6 +60,7 @@ public class Bomb : Grabable {
 	}
 
 	void Explode () {
+		TerrainGenerator.instance.CreateExplosion(transform.position, 8f);
 		ObjectDestroyed();
 		Destroy(gameObject);
 	}

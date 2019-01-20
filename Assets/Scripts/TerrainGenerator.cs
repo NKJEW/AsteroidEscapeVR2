@@ -147,6 +147,11 @@ public class TerrainGenerator : MonoBehaviour {
         }
     }
 
+	public void CreateExplosion (Vector3 pos, float size) {
+		GameObject newExplosion = Instantiate(asteroidExplosion, pos, Quaternion.identity);
+		newExplosion.GetComponent<ExplosionGenerator>().size = size;
+	}
+
     float GetPosForChunkId(int id) {
         return id * chunkSize + transform.position.z;
     }
