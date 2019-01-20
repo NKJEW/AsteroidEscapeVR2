@@ -5,12 +5,12 @@ using UnityEngine;
 public class ExplosionParticle : MonoBehaviour {
     public AnimationCurve curve;
 
-    public void Init(float delay, float time, float maxSize, Vector3 diffToCenter) {
+    public void Init(float delay, float time, float maxSize, Vector3 diffToCenter, Vector3 vel) {
         Vector3 axisOfRotation = Vector3.Cross(diffToCenter, Vector3.up).normalized;
-        StartCoroutine(ExplodeSequence(delay, time, maxSize, axisOfRotation));
+        StartCoroutine(ExplodeSequence(delay, time, maxSize, axisOfRotation, vel));
     }
 
-    IEnumerator ExplodeSequence(float delay, float time, float maxSize, Vector3 axisOfRotation) {
+    IEnumerator ExplodeSequence(float delay, float time, float maxSize, Vector3 axisOfRotation, Vector3 vel) {
         float rotSpeed = (2 * Random.Range(0, 2) - 1) * 50f; //either -50 or 50
         transform.localScale = Vector3.zero;
         yield return new WaitForSeconds(delay);
@@ -19,6 +19,7 @@ public class ExplosionParticle : MonoBehaviour {
         while (p < 1f) {
             transform.localScale = Vector3.one * curve.Evaluate(p) * maxSize;
             transform.Rotate(axisOfRotation, rotSpeed * Time.deltaTime);
+            transform.Translate(vel * Time.deltaTime);
             yield return new WaitForEndOfFrame();
             p += Time.deltaTime / time;
         }

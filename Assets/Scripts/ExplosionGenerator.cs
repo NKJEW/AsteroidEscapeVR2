@@ -28,7 +28,7 @@ public class ExplosionGenerator : MonoBehaviour {
             Vector3 offset = Random.onUnitSphere * Random.Range(0.2f, 0.4f) * size;
             GameObject newPart = Instantiate(particlePrefab, transform.position + offset, Random.rotation);
             newPart.GetComponent<Renderer>().material = glowMat;
-            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0f, 0.1f), Random.Range(1.7f, 2.4f), Random.Range(0.7f, 1f) * size, offset);
+            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0f, 0.1f), Random.Range(1.7f, 2.4f), Random.Range(0.7f, 1f) * size, offset, Vector3.zero);
         }
 
         int numSmokePieces = Random.Range(9, 12) * Mathf.CeilToInt(size / 4);
@@ -36,7 +36,7 @@ public class ExplosionGenerator : MonoBehaviour {
             Vector3 offset = Random.onUnitSphere * Random.Range(1.2f, 1.4f) * size;
             GameObject newPart = Instantiate(particlePrefab, transform.position + offset, Random.rotation);
             newPart.GetComponent<Renderer>().material = smokeMat;
-            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0.2f, 0.3f), Random.Range(1.8f, 2.3f), Random.Range(0.7f, 0.9f) * size / 1.25f, offset);
+            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0.2f, 0.3f), Random.Range(1.8f, 2.3f), Random.Range(0.7f, 0.9f) * size / 1.25f, offset, Vector3.zero);
         }
 
         explosionLight = GetComponent<Light>();

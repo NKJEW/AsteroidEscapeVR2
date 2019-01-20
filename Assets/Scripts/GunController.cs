@@ -35,6 +35,10 @@ public class GunController : MonoBehaviour {
 	public Grabable grabed = null;
 
     [Space(15)]
+    public GameObject puffParticle;
+    public Material puffMat;
+
+    [Space(15)]
     public AudioSource grappleSound;
     public AudioSource holdSound;
     public float lowPitch;
@@ -214,8 +218,17 @@ public class GunController : MonoBehaviour {
 		Bomb bomb = grabed as Bomb;
 		bomb.transform.parent = null;
 		bomb.Launch(rb.velocity);
+        CreatePuff();
 		rb.AddForce(-bomb.transform.forward * bombLaunchRecoilForce);
 	}
+
+    void CreatePuff() {
+        for (int i = 0; i < 3; i++) {
+            Vector3 offset = Random.insideUnitSphere * 0.1f;
+            GameObject newPart = Instantiate(puffParticle, transform.position + offset, Random.rotation);
+            newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0f, 0.2f), 0.5f, Random.Range(0.1f, 0.3f), offset, rb.velocity);
+        }
+    }
 
 	void GetNewAnchor (Vector3 position, Transform obj)
 	{

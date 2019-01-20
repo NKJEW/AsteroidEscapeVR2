@@ -24,7 +24,7 @@ public class FlamingAsteroid : MonoBehaviour {
     GameObject CreateNewPart(float delay) {
         Vector3 offset = Random.insideUnitSphere * 0.3f;
         GameObject newPart = Instantiate(explosionPart, transform.position + offset + (transform.right * 3), Random.rotation);
-        newPart.GetComponent<ExplosionParticle>().Init(delay, 1f, Random.Range(1f, 1.25f), offset);
+        newPart.GetComponent<ExplosionParticle>().Init(delay, 1f, Random.Range(1f, 1.25f), offset, Vector3.zero);
         return newPart;
     }
 }
