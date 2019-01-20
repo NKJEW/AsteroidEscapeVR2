@@ -10,11 +10,14 @@ public class Bomb : Grabable {
 	Collider coll;
 	Animator anim;
 	Transform blinkingEffect;
+	TrailRenderer tr;
 
 	protected override void Init () {
 		coll = GetComponent<Collider>();
 		anim = GetComponent<Animator>();
 		blinkingEffect = transform.Find("Blinking");
+		tr = GetComponent<TrailRenderer>();
+		tr.enabled = false;
 	}
 
 	public void Attach () {
@@ -36,6 +39,7 @@ public class Bomb : Grabable {
 		rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.VelocityChange);
 
 		anim.SetTrigger("Arm");
+		tr.enabled = true;
 	}
 
 	void Update () {
