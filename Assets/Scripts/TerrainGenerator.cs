@@ -148,9 +148,9 @@ public class TerrainGenerator : MonoBehaviour {
         }
     }
 
-    public void CreateExplosion (Vector3 pos, float size, Material expMaterial, Color expColor, bool alwaysLoads = false) {
+    public void CreateExplosion (Vector3 pos, float size, Material expMaterial, Color expColor, AudioClip explosionSound, bool alwaysLoads = false) {
 		GameObject newExplosion = Instantiate(asteroidExplosion, pos, Quaternion.identity);
-        newExplosion.GetComponent<ExplosionGenerator>().Init(size, expMaterial, expColor, alwaysLoads);
+        newExplosion.GetComponent<ExplosionGenerator>().Init(size, expMaterial, expColor, explosionSound, alwaysLoads);
 	}
 
     float GetPosForChunkId(int id) {

@@ -132,6 +132,7 @@ MonoBehaviour:
   debrisFactor: 10
   defaultExplosionMat: {fileID: 2100000, guid: 5b3f11175df6740349762a75a0b3f38d, type: 2}
   defaultExplosionLightColor: {r: 1, g: 0.7372549, b: 0.09803922, a: 1}
+  explosionSound: {fileID: 8300000, guid: 4714774b0a1134d1aa5d1cc6826c0eab, type: 3}
 --- !u!114 &114550101328019564
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -10,6 +10,8 @@ public class AstriodController : MonoBehaviour {
     public Material defaultExplosionMat;
     public Color defaultExplosionLightColor;
 
+    public AudioClip explosionSound;
+
     int size;
 
     Rigidbody rb;
@@ -36,7 +38,7 @@ public class AstriodController : MonoBehaviour {
     }
 
 	public void Explode (float relativeVel = 10f) {
-		TerrainGenerator.instance.CreateExplosion(transform.position, 2.5f + size * 2.5f, defaultExplosionMat, defaultExplosionLightColor);
+        TerrainGenerator.instance.CreateExplosion(transform.position, 2.5f + size * 2.5f, defaultExplosionMat, defaultExplosionLightColor, explosionSound);
 		//newParticles.GetComponent<Rigidbody>().velocity = other.relativeVelocity;
 		if (size > 0) { //0 is a fragment
 			CreateDebris(relativeVel);
