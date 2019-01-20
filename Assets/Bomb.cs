@@ -9,6 +9,12 @@ public class Bomb : Grabable {
     public Material explosionMat;
     public Color lightColor;
 
+    public AudioSource tickSound;
+    public AudioClip explosionSound;
+
+    float nextTick;
+    float curTickRate = 1f;
+
 	Collider coll;
 	Animator anim;
 	Transform blinkingEffect;
@@ -42,6 +48,8 @@ public class Bomb : Grabable {
 
 		anim.SetTrigger("Arm");
 		tr.enabled = true;
+
+        nextTick = Time.time + curTickRate;
 	}
 
 	void Update () {
@@ -50,6 +58,12 @@ public class Bomb : Grabable {
 			if (fuze <= 0f) {
 				Explode();
 			}
+
+            if (Time.time > nextTick) {
+                nextTick = Time.time + curTickRate;
+                curTickRate *= 0.75f;
+                tickSound.Play();
+            }
 		}
 	}
 
@@ -66,7 +80,7 @@ public class Bomb : Grabable {
 	}
 
 	void Explode () {
-        TerrainGenerator.instance.CreateExplosion(transform.position, 7f, explosionMat, lightColor, true);
+        TerrainGenerator.instance.CreateExplosion(transform.position, 7f, explosionMat, lightColor, explosionSound, true);
 		ObjectDestroyed();
 		Destroy(gameObject);
 	}
