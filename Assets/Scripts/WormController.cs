@@ -8,7 +8,8 @@ public class WormController : MonoBehaviour {
         Waiting,
         Chasing,
         Swallowing,
-        Finished
+        Finished,
+		Dead
     };
     State state;
 
@@ -36,14 +37,19 @@ public class WormController : MonoBehaviour {
     public float minBellowTime;
     public float maxBellowTime;
     float nextBellow;
-    AudioSource bellowSound;
+    public AudioSource bellowSound;
+	public AudioSource hurtSound;
+	public AudioSource deathSound;
+
+	public int health;
 
     Rigidbody rb;
+	Animator anim;
 
 	void Start () {
 		player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody>();
-        bellowSound = GetComponent<AudioSource>();
+		anim = GetComponent<Animator>();
 	}
 	
 	void Update () {
@@ -76,9 +82,7 @@ public class WormController : MonoBehaviour {
 
                 Activate();
                 break;
-            case State.Finished:
-                break;
-        }
+		}
 	}
 
     void Activate() {
@@ -130,4 +134,38 @@ public class WormController : MonoBehaviour {
 
         return Mathf.Clamp01((speed / 30) + ((dist - lowIntensityDist) / (highIntensityDist - lowIntensityDist))); //linear falloff
     }
+
+	// vitals 
+	public void HitByBomb () {
+		print("hit");
+		health--;
+		if (health <= 0) {
+			Die();
+		} else {
+			hurtSound.Play();
+			player.SlowTimeStart();
+
+			speedIncreaseRate *= 1.6f;
+			speed *= 0.6f;
+		}
+	}
+
+	void Die () {
+		Destroy(transform.Find("SwallowZone").gameObject);
+		StartCoroutine(SlowAnimation(2.5f));
+		deathSound.Play();
+
+
+		state = State.Dead;
+	}
+
+	IEnumerator SlowAnimation (float time) {
+		float timer = 0f;
+		while (timer < time) {
+			anim.speed = Mathf.Clamp01(1f - (time / timer));
+			timer += Time.deltaTime;
+
+			yield return new WaitForEndOfFrame();
+		}
+	}
 }

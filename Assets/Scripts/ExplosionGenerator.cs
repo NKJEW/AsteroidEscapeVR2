@@ -15,10 +15,10 @@ public class ExplosionGenerator : MonoBehaviour {
 
     float size;
 
-    public void Init(float newSize, Material glowMat, Color lightColor, bool alwaysLoads) {
+    public void Init(float newSize, Material glowMat, Color lightColor, bool isPlayerBomb) {
         size = newSize;
 
-        if (!alwaysLoads && Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) > maxLoadDistance) {
+        if (!isPlayerBomb && Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) > maxLoadDistance) {
             Destroy(gameObject);
             return;
         }
@@ -43,8 +43,13 @@ public class ExplosionGenerator : MonoBehaviour {
         explosionLight.color = lightColor;
         StartCoroutine(LightSequence());
 
-        Collider[] allCols = Physics.OverlapSphere(transform.position, size * 3);
+        Collider[] allCols = Physics.OverlapSphere(transform.position, size * 3f);
         foreach (Collider col in allCols) {
+			WormController possibleWorm = col.GetComponentInParent<WormController>();
+			if (isPlayerBomb && possibleWorm != null && Vector3.Distance(transform.position, col.transform.position) <= size) {
+				possibleWorm.HitByBomb();
+			}
+
             Rigidbody rb = col.GetComponentInParent<Rigidbody>();
             if (rb != null) {
 				Vector3 diff = (rb.transform.position - transform.position);
