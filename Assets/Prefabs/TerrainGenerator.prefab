@@ -57,7 +57,7 @@ MonoBehaviour:
   maxNumChunks: 5
   launchRadius: 60
   launchBufferOffset: 10
-  minChaosLaunchWait: 20
+  minChaosLaunchWait: 5
   maxChaosLaunchWait: 0.05
   launchWaitVariance: 5
   launchConeAngle: 20
@@ -68,6 +68,8 @@ MonoBehaviour:
   minFlamingSpeed: 30
   maxFlamingSpeed: 35
   chaosIncreaseRate: 0.5
+  bombPrefab: {fileID: 1913846252298982, guid: b3b8e302c86a0bb45a5f4e58a6cc55af, type: 2}
+  bombProbability: 0.1
   asteroidPrefab: {fileID: 1132267318016648, guid: 354dca690f0d04945bdbf300d1394ca0,
     type: 2}
   asteroidExplosion: {fileID: 1701965939655616, guid: 174ff6d23657b4aadbb594e8056d092d,

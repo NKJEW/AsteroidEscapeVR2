@@ -59,7 +59,7 @@ Shader "Custom/RadialGradient" {
                  {
                     l = 1;
                  }
-                 _ColorA.a = a;
+                 _ColorA.a *= a;
                  return _ColorA;
              }
              ENDCG

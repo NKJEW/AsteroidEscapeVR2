@@ -1376,11 +1376,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114757229838512184, guid: 96324e14755db455ea3c0c1adbbcc164,
-        type: 2}
-      propertyPath: minChaosLaunchWait
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96324e14755db455ea3c0c1adbbcc164, type: 2}
   m_IsPrefabAsset: 0

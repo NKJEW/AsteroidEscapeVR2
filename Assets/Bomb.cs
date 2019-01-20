@@ -9,10 +9,12 @@ public class Bomb : Grabable {
 
 	Collider coll;
 	Animator anim;
+	Transform blinkingEffect;
 
 	protected override void Init () {
 		coll = GetComponent<Collider>();
 		anim = GetComponent<Animator>();
+		blinkingEffect = transform.Find("Blinking");
 	}
 
 	public void Attach () {
@@ -29,7 +31,9 @@ public class Bomb : Grabable {
 		gameObject.layer = 0;
 
 		rb.isKinematic = false;
+		rb.drag = 0f;
 		rb.velocity = (transform.forward * launchSpeed) + inheritVel;
+		rb.AddTorque(Random.insideUnitSphere * 50f, ForceMode.VelocityChange);
 
 		anim.SetTrigger("Arm");
 	}
@@ -40,6 +44,12 @@ public class Bomb : Grabable {
 			if (fuze <= 0f) {
 				Explode();
 			}
+		}
+	}
+
+	private void LateUpdate () {
+		if (!armed) {
+			blinkingEffect.transform.LookAt(Camera.main.transform.position);
 		}
 	}
 
