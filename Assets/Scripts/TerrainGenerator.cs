@@ -27,6 +27,10 @@ public class TerrainGenerator : MonoBehaviour {
     float nextLaunch;
 
     [Space(15)]
+    public GameObject bombPrefab;
+    public float bombProbability;
+
+    [Space(15)]
     public GameObject asteroidPrefab;
     public GameObject asteroidExplosion;
     public GameObject flamingAsteroidPrefab;
@@ -79,6 +83,10 @@ public class TerrainGenerator : MonoBehaviour {
             Vector3 spawnPos = new Vector3(circlePos.x, circlePos.y, curSpawnPos);
 
             CreateRandomAsteroid(spawnPos, newChunk.transform);
+
+            if (Random.value < bombProbability) {
+                Instantiate(bombPrefab, new Vector3(-circlePos.x, -circlePos.y, curSpawnPos), Random.rotation, newChunk.transform);
+            }
 
             curSpawnPos += terrainStep;
         }
