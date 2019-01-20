@@ -18,6 +18,8 @@ public class WormController : MonoBehaviour {
 	public float maxFollowDist;
 	public float speed;
 	public float speedIncreaseRate;
+    public float minTargetUpdateTime;
+    public float maxTargetUpdateTime;
 
     public float spawnDistance; //how far does the player have to be away before the worm will appear?
 
@@ -41,6 +43,9 @@ public class WormController : MonoBehaviour {
 	public AudioSource hurtSound;
 	public AudioSource deathSound;
 
+    Vector3 nextTarget;
+    float nextTargetUpdate;
+
 	public int health;
 
     Rigidbody rb;
@@ -51,8 +56,8 @@ public class WormController : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
 	}
-	
-	void Update () {
+
+    void Update() {
         if (Time.time > nextAudioRefresh) {
             MusicManager.instance.UpdateIntensity(CalculateMusicIntensity(), audioUpdateTime);
             nextAudioRefresh = Time.time + audioUpdateTime;
@@ -62,16 +67,36 @@ public class WormController : MonoBehaviour {
             case State.Chasing:
                 float dist = (transform.position - player.transform.position).magnitude;
                 float curSpeed = speed;
+
+                if (transform.position.z > nextTarget.z) {
+                    UpdateTarget();
+                }
+
+                Vector3 curTarget = nextTarget;
+
                 if (dist > maxFollowDist) {
                     curSpeed *= 10;
+                    curTarget = player.transform.position;
+                    transform.LookAt(player.transform);
+                } else {
+                    if ((player.transform.position.z - transform.position.z) < 50f) { //if the worm is close enough
+                        curTarget = player.transform.position;
+                    }
+
+                    Quaternion goalRot = Quaternion.LookRotation((curTarget - transform.position).normalized, Vector3.up);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, goalRot, 30f * Time.deltaTime);
                 }
-                transform.LookAt(player.transform);
+
                 rb.velocity = transform.forward * curSpeed;
 
                 speed += speedIncreaseRate * Time.deltaTime;
 
                 if (Time.time > nextBellow) {
                     Bellow();
+                }
+
+                if (Time.time > nextTargetUpdate) {
+                    UpdateTarget();
                 }
 
                 break;
@@ -84,6 +109,14 @@ public class WormController : MonoBehaviour {
                 break;
 		}
 	}
+
+    void UpdateTarget() {
+        nextTargetUpdate = Time.time + Random.Range(minTargetUpdateTime, maxTargetUpdateTime);
+
+        float zPos = transform.position.z + (speed * maxTargetUpdateTime) + 50f; //add some give so that the worm is never waiting
+        Vector2 circlePos = Random.insideUnitCircle * 15f;
+        nextTarget = new Vector3(circlePos.x, circlePos.y, zPos);
+    }
 
     void Activate() {
         transform.position = player.transform.position - Vector3.forward * maxFollowDist + Vector3.down * 20; // start arbitrarily below the belt
