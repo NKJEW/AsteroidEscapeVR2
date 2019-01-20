@@ -41,6 +41,7 @@ public class GunController : MonoBehaviour {
     [Space(15)]
     public AudioSource grappleSound;
     public AudioSource holdSound;
+    public AudioSource bombGrabSound;
     public float lowPitch;
     public float highPitch;
 
@@ -210,6 +211,8 @@ public class GunController : MonoBehaviour {
 		bomb.transform.parent = bombPoint;
 		bomb.transform.localPosition = Vector3.zero;
 		bomb.transform.rotation = bombPoint.rotation;
+
+        bombGrabSound.Play();
 
 		state = State.bombing;
 	}
