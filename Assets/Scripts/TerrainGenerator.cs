@@ -28,7 +28,8 @@ public class TerrainGenerator : MonoBehaviour {
 
     [Space(15)]
     public GameObject bombPrefab;
-    public float bombProbability;
+    public float bannedBombZone;
+    float nextLegalBomb;
 
     [Space(15)]
     public GameObject asteroidPrefab;
@@ -84,8 +85,9 @@ public class TerrainGenerator : MonoBehaviour {
 
             CreateRandomAsteroid(spawnPos, newChunk.transform);
 
-            if (Random.value < bombProbability) {
+            if (curSpawnPos > nextLegalBomb && Random.value < (GetChaosFactor() / 10f)) { //bomb probability is 1/10th chaos factor
                 Instantiate(bombPrefab, new Vector3(-circlePos.x, -circlePos.y, curSpawnPos), Random.rotation, newChunk.transform);
+                nextLegalBomb = curSpawnPos + bannedBombZone;
             }
 
             curSpawnPos += terrainStep;
