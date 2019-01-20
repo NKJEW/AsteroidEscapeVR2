@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ExplosionGenerator : MonoBehaviour {
-    public Material redMat;
     public Material smokeMat;
     public GameObject particlePrefab;
 
@@ -12,19 +11,21 @@ public class ExplosionGenerator : MonoBehaviour {
 
 	public float maxLoadDistance;
 
-    public float size;
+    float size;
 
-    void Start() {
-		if(Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) > maxLoadDistance) {
-			Destroy(gameObject);
-			return;
-		}
+    public void Init(float newSize, Material glowMat, Color lightColor, bool alwaysLoads) {
+        size = newSize;
+
+        if (!alwaysLoads && Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) > maxLoadDistance) {
+            Destroy(gameObject);
+            return;
+        }
 
         int numGlowPieces = Random.Range(5, 7) * Mathf.CeilToInt(size / 2);
         for (int i = 0; i < numGlowPieces; i++) {
             Vector3 offset = Random.onUnitSphere * Random.Range(0.2f, 0.4f) * size;
             GameObject newPart = Instantiate(particlePrefab, transform.position + offset, Random.rotation);
-            newPart.GetComponent<Renderer>().material = redMat;
+            newPart.GetComponent<Renderer>().material = glowMat;
             newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0f, 0.1f), Random.Range(1.7f, 2.4f), Random.Range(0.7f, 1f) * size, offset);
         }
 
@@ -37,6 +38,7 @@ public class ExplosionGenerator : MonoBehaviour {
         }
 
         explosionLight = GetComponent<Light>();
+        explosionLight.color = lightColor;
         StartCoroutine(LightSequence());
     }
 

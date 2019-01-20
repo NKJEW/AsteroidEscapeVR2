@@ -6,6 +6,8 @@ public class Bomb : Grabable {
 	public float launchSpeed;
 	public float fuze;
 	public bool armed = false;
+    public Material explosionMat;
+    public Color lightColor;
 
 	Collider coll;
 	Animator anim;
@@ -64,7 +66,7 @@ public class Bomb : Grabable {
 	}
 
 	void Explode () {
-		TerrainGenerator.instance.CreateExplosion(transform.position, 8f);
+        TerrainGenerator.instance.CreateExplosion(transform.position, 8f, explosionMat, lightColor);
 		ObjectDestroyed();
 		Destroy(gameObject);
 	}
