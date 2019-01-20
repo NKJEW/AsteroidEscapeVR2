@@ -225,7 +225,7 @@ public class GunController : MonoBehaviour {
     void CreatePuff() {
         for (int i = 0; i < 3; i++) {
             Vector3 offset = Random.insideUnitSphere * 0.1f;
-            GameObject newPart = Instantiate(puffParticle, transform.position + offset, Random.rotation);
+            GameObject newPart = Instantiate(puffParticle, spawn.position + offset, Random.rotation);
             newPart.GetComponent<ExplosionParticle>().Init(Random.Range(0f, 0.2f), 0.5f, Random.Range(0.1f, 0.3f), offset, rb.velocity);
         }
     }
