@@ -7,10 +7,14 @@ ModelImporter:
     100002: //RootNode
     100004: shipDoor
     100006: shipMain
+    100008: button
+    100010: buttonFrame
     400000: Cube
     400002: //RootNode
     400004: shipDoor
     400006: shipMain
+    400008: button
+    400010: buttonFrame
     2100000: ShipMain
     2100002: ShipGlass
     2100004: ShipHighlights
@@ -19,15 +23,22 @@ ModelImporter:
     2100010: ShipGlow
     2100012: ShitDoor
     2100014: ShipAccent
+    2100016: DeployButton
     2300000: Cube
     2300002: shipDoor
     2300004: shipMain
+    2300006: button
+    2300008: buttonFrame
     3300000: Cube
     3300002: shipDoor
     3300004: shipMain
+    3300006: button
+    3300008: buttonFrame
     4300000: shipDoor
     4300002: shipMain
     4300004: Cube
+    4300006: button
+    4300008: buttonFrame
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}

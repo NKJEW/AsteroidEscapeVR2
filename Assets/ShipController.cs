@@ -28,10 +28,8 @@ public class ShipController : MonoBehaviour {
 	}
 
 	public void OpenHanger () {
-		anim.SetTrigger("Open");
-		ChangeLightColor(emergencyColor);
-		SuckDebris();
-		alarm.Play();
+		TerrainGenerator.instance.GenerateTerrain();
+		StartCoroutine(HangerOpenRoutine());
 	}
 
 	private void ChangeLightColor (Color newColor) {
@@ -48,11 +46,26 @@ public class ShipController : MonoBehaviour {
 			StartCoroutine(SuckObject(item, 1.2f));
 			Destroy(item.gameObject, 20f);
 		}
-		wind.windMain = 30f;
-		airParticles.Stop();
-		puffs.Init(6f);
+		ParticleSystem.EmissionModule em = airParticles.emission;
+		em.rateOverTime = em.rateOverTime.constant / 2f;
 
 		StartCoroutine(SuckObject(FindObjectOfType<PlayerController>().GetComponent<Rigidbody>(), 1.5f));
+	}
+
+	private void OnTriggerEnter (Collider other) {
+		if (other.gameObject.layer == 12) { // interactable layer
+			OpenHanger();
+		}
+	}
+
+	IEnumerator HangerOpenRoutine () {
+		anim.SetTrigger("Open");
+		ChangeLightColor(emergencyColor);
+		yield return new WaitForSeconds(1f);
+		puffs.Init(4f);
+		yield return new WaitForSeconds(0.4f);
+		SuckDebris();
+		alarm.Play();
 	}
 
 	IEnumerator SuckObject (Rigidbody rb, float duration) {
@@ -60,6 +73,7 @@ public class ShipController : MonoBehaviour {
 		while (timer < duration) {
 			timer += Time.deltaTime;
 			float forceRatio = timer / duration;
+			wind.windMain = 100f * forceRatio;
 			rb.AddForce(transform.forward * suckForce * forceRatio);
 			rb.AddTorque(Random.onUnitSphere * spinForce * forceRatio);
 			yield return new WaitForEndOfFrame();

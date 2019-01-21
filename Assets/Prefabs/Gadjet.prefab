@@ -229,7 +229,8 @@ GameObject:
   - component: {fileID: 4184649879120578}
   - component: {fileID: 33910557479501820}
   - component: {fileID: 23955216171458910}
-  m_Layer: 0
+  - component: {fileID: 136752872299130312}
+  m_Layer: 12
   m_Name: Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1298,3 +1299,16 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!136 &136752872299130312
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1648788409752976}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.075250514
+  m_Height: 0.23628359
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.02635338, z: -0.032170597}

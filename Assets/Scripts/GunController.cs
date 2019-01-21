@@ -72,7 +72,7 @@ public class GunController : MonoBehaviour {
 		lr = GetComponent<LineRenderer>();
 		lr.enabled = false;
 		pc = GetComponentInParent<PlayerController>();
-		rb = GetComponentInParent<Rigidbody>();
+		rb = transform.parent.GetComponentInParent<Rigidbody>();
 		capsule = GetComponentInParent<CapsuleCollider>();
 		
 		// initialize input
