@@ -9,12 +9,24 @@ ModelImporter:
     100006: shipMain
     100008: button
     100010: buttonFrame
+    100012: shipDebris0
+    100014: shipDebris2
+    100016: shipDebris3
+    100018: shipDebris4
+    100020: shipDebris5
+    100022: shipMain_001
     400000: Cube
     400002: //RootNode
     400004: shipDoor
     400006: shipMain
     400008: button
     400010: buttonFrame
+    400012: shipDebris0
+    400014: shipDebris2
+    400016: shipDebris3
+    400018: shipDebris4
+    400020: shipDebris5
+    400022: shipMain_001
     2100000: ShipMain
     2100002: ShipGlass
     2100004: ShipHighlights
@@ -24,21 +36,46 @@ ModelImporter:
     2100012: ShitDoor
     2100014: ShipAccent
     2100016: DeployButton
+    2100018: ShipMain_001
+    2100020: ShipHighlights_001
+    2100022: ShipInterior_001
+    2100024: ShipGlass_001
+    2100026: ShipHighlights_003
+    2100028: ShipMain_003
+    2100030: ShipInterior_003
     2300000: Cube
     2300002: shipDoor
     2300004: shipMain
     2300006: button
     2300008: buttonFrame
+    2300010: shipDebris0
+    2300012: shipDebris2
+    2300014: shipDebris3
+    2300016: shipDebris4
+    2300018: shipDebris5
+    2300020: shipMain_001
     3300000: Cube
     3300002: shipDoor
     3300004: shipMain
     3300006: button
     3300008: buttonFrame
+    3300010: shipDebris0
+    3300012: shipDebris2
+    3300014: shipDebris3
+    3300016: shipDebris4
+    3300018: shipDebris5
+    3300020: shipMain_001
     4300000: shipDoor
     4300002: shipMain
     4300004: Cube
     4300006: button
     4300008: buttonFrame
+    4300010: shipDebris3
+    4300012: shipDebris0
+    4300014: shipDebris4
+    4300016: shipDebris2
+    4300018: shipMain_001
+    4300020: shipDebris5
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}

@@ -10,13 +10,19 @@ public class ShipController : MonoBehaviour {
 	public Color emergencyColor;
 
 	[Header("Misc")]
-	public Transform debrisContainer;
+	public Transform hangerDebrisContainer;
 	public float suckForce;
 	public float spinForce;
 	public WindZone wind;
 	public ParticleSystem airParticles;
 	public AudioSource alarm;
 	public LinePuffGenerator puffs;
+
+	[Header("Explosion")]
+	public Material explosionMat;
+	public Color explosionColor;
+	public AudioClip explosionSound;
+	public Transform explosionDebrisContainer;
 
 	Animator anim;
 
@@ -40,8 +46,8 @@ public class ShipController : MonoBehaviour {
 	}
 
 	void SuckDebris () {
-		for (int i = 0; i < debrisContainer.childCount; i++) {
-			Rigidbody item = debrisContainer.GetChild(i).GetComponent<Rigidbody>();
+		for (int i = 0; i < hangerDebrisContainer.childCount; i++) {
+			Rigidbody item = hangerDebrisContainer.GetChild(i).GetComponent<Rigidbody>();
 			item.isKinematic = false;
 			StartCoroutine(SuckObject(item, 1.2f));
 			Destroy(item.gameObject, 20f);
@@ -56,6 +62,33 @@ public class ShipController : MonoBehaviour {
 		if (other.gameObject.layer == 12) { // interactable layer
 			OpenHanger();
 		}
+	}
+
+	private void OnCollisionEnter (Collision collision) {
+		if (collision.gameObject.tag == "Deadly") {
+			Explode();
+		}
+	}
+
+	private void Update () {
+		// (Input.GetKeyDown(KeyCode.Space)) {
+		//xplode();
+		//
+	}
+
+	void Explode () {
+		// enable debris
+		explosionDebrisContainer.parent = null;
+		for (int i = 0; i < explosionDebrisContainer.childCount; i++) {
+			Rigidbody item = explosionDebrisContainer.GetChild(i).GetComponent<Rigidbody>();
+			item.gameObject.SetActive(true);
+			item.isKinematic = false;
+			item.AddTorque(Random.onUnitSphere * spinForce * 1000f);
+			Destroy(item.gameObject, 20f);
+		}
+
+		TerrainGenerator.instance.CreateExplosion(transform.position, 12f, explosionMat, explosionColor, explosionSound, true);
+		Destroy(gameObject);
 	}
 
 	IEnumerator HangerOpenRoutine () {
