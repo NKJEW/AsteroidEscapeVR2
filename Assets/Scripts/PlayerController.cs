@@ -169,10 +169,20 @@ public class PlayerController :MonoBehaviour {
 	}
 
     void StartSwallow() {
-        DisableHands();
-		//Destroy(GetComponent<Collider>());
-		SetRigidbodyActive(false);
+        FreezePlayer();
         FindObjectOfType<WormController>().StartSwallowSequence();
+    }
+
+    void FreezePlayer() {
+        DisableHands();
+        SetRigidbodyActive(false);
+    }
+
+    void StartWin() {
+        FreezePlayer();
+        WormController worm = FindObjectOfType<WormController>();
+        worm.StartWormDeath();
+        CameraLookAt(worm.transform.position, 2f);
     }
 
     public void SetRigidbodyActive(bool isActive) {

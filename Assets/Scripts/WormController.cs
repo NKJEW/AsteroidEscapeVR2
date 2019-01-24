@@ -155,6 +155,10 @@ public class WormController : MonoBehaviour {
         OnSwallowComplete();
     }
 
+    public void StartWormDeath() { 
+        //TODO
+    }
+
     void OnSwallowComplete() {
         print("u ded");
         state = State.Finished;

@@ -13,9 +13,13 @@ public class SegmentManager : MonoBehaviour {
     public List<Transform> segments = new List<Transform>();
     public float timeRatio = 0f;
 
+    bool isActive;
+
 
 
 	void Start () {
+        isActive = true;
+
         followRb = followPoint.GetComponentInParent<Rigidbody>();
 
         //initilize segment positions
@@ -37,6 +41,10 @@ public class SegmentManager : MonoBehaviour {
     }
 
     void Update () {
+        if (!isActive) {
+            return;
+        }
+
         float speed = followRb.velocity.magnitude;
 		if (speed <= 0.05f) {
 			return;
