@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrainStep: 5
-  beltRadius: 25
+  beltRadius: 35
   chunkSize: 200
   maxNumChunks: 5
-  launchRadius: 60
+  launchRadius: 80
   launchBufferOffset: 10
   minChaosLaunchWait: 5
   maxChaosLaunchWait: 0.05
@@ -64,10 +64,10 @@ MonoBehaviour:
   minLaunchSpeed: 2
   maxLaunchSpeed: 5
   minChaosFlamingChance: 0.1
-  maxChaosFlamingChance: 0.75
+  maxChaosFlamingChance: 0.9
   minFlamingSpeed: 30
   maxFlamingSpeed: 35
-  chaosIncreaseRate: 0.5
+  chaosIncreaseRate: 1.5
   bombPrefab: {fileID: 1913846252298982, guid: b3b8e302c86a0bb45a5f4e58a6cc55af, type: 2}
   bannedBombZone: 80
   asteroidPrefab: {fileID: 1132267318016648, guid: 354dca690f0d04945bdbf300d1394ca0,

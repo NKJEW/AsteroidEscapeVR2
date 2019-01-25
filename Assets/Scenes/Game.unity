@@ -6523,7 +6523,7 @@ MonoBehaviour:
   - {fileID: 1577545898}
   - {fileID: 1242560821}
   emergencyColor: {r: 0.8396226, g: 0.06432674, b: 0, a: 1}
-  hangerDebrisContainer: {fileID: 0}
+  hangerDebrisContainer: {fileID: 1444684106}
   suckForce: 500
   spinForce: 100
   wind: {fileID: 635330491}
@@ -7146,9 +7146,8 @@ MonoBehaviour:
     type: 2}
   segmentCount: 10
   followPoint: {fileID: 2068262939}
-  targetPositions: []
-  segments: []
-  timeRatio: 0
+  segmentExplodeDelayMin: 0.1
+  segmentExplodeDelayMax: 0.3
 --- !u!4 &1246057034
 Transform:
   m_ObjectHideFlags: 0

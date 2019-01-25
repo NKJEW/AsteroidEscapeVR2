@@ -80,7 +80,7 @@ public class Bomb : Grabable {
 	}
 
 	void Explode () {
-        TerrainGenerator.instance.CreateExplosion(transform.position, 7f, explosionMat, lightColor, explosionSound, true);
+        TerrainGenerator.instance.CreateExplosion(transform.position, 7f, explosionMat, lightColor, explosionSound, true, true);
 		ObjectDestroyed();
 		Destroy(gameObject);
 	}

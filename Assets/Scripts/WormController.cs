@@ -58,6 +58,10 @@ public class WormController : MonoBehaviour {
 	}
 
     void Update() {
+		if (Input.GetKeyDown(KeyCode.K)) {
+			Die();
+		}
+
         if (Time.time > nextAudioRefresh) {
             MusicManager.instance.UpdateIntensity(CalculateMusicIntensity(), audioUpdateTime);
             nextAudioRefresh = Time.time + audioUpdateTime;
@@ -155,10 +159,6 @@ public class WormController : MonoBehaviour {
         OnSwallowComplete();
     }
 
-    public void StartWormDeath() { 
-        //TODO
-    }
-
     void OnSwallowComplete() {
         print("u ded");
         state = State.Finished;
@@ -193,8 +193,10 @@ public class WormController : MonoBehaviour {
 		StartCoroutine(SlowAnimation(5f));
 		deathSound.Play();
 
-
 		state = State.Dead;
+
+		FindObjectOfType<PlayerController>().StartWin();
+		FindObjectOfType<SegmentManager>().StartDeathSequence();
 	}
 
 	IEnumerator SlowAnimation (float time) {

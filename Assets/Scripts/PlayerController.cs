@@ -178,10 +178,9 @@ public class PlayerController :MonoBehaviour {
         SetRigidbodyActive(false);
     }
 
-    void StartWin() {
+    public void StartWin() {
         FreezePlayer();
         WormController worm = FindObjectOfType<WormController>();
-        worm.StartWormDeath();
         CameraLookAt(worm.transform.position, 2f);
     }
 

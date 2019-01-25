@@ -163,9 +163,9 @@ public class TerrainGenerator : MonoBehaviour {
         }
     }
 
-    public void CreateExplosion (Vector3 pos, float size, Material expMaterial, Color expColor, AudioClip explosionSound, bool alwaysLoads = false) {
+    public void CreateExplosion (Vector3 pos, float size, Material expMaterial, Color expColor, AudioClip explosionSound, bool forceRender = false, bool isPlayerBomb = false) {
 		GameObject newExplosion = Instantiate(asteroidExplosion, pos, Quaternion.identity);
-        newExplosion.GetComponent<ExplosionGenerator>().Init(size, expMaterial, expColor, explosionSound, alwaysLoads);
+        newExplosion.GetComponent<ExplosionGenerator>().Init(size, expMaterial, expColor, explosionSound, forceRender, isPlayerBomb);
 	}
 
     float GetPosForChunkId(int id) {
@@ -174,7 +174,7 @@ public class TerrainGenerator : MonoBehaviour {
 
     float GetChaosFactor() { //chaos factor (0 to 1) is based on distance and affects the rate of moving and flaming asteroids
         float curPlayerDistance = playerRb.transform.position.z;
-		float val = Mathf.Clamp01((1f/1500f) * curPlayerDistance);
+		float val = Mathf.Clamp01((1f/750f) * curPlayerDistance);
         return val;
 		//1 - (1 / Mathf.Sqrt(chaosIncreaseRate * Mathf.Max(curPlayerDistance,0) + 1));
 	}

@@ -37,6 +37,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4653466981454398}
+  - component: {fileID: 114609035289629044}
   m_Layer: 13
   m_Name: WormSegment
   m_TagString: Untagged
@@ -64,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1536887577533160}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -209}
+  m_LocalPosition: {x: 0, y: 0, z: -11.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4561682647203348}
@@ -116,6 +117,35 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1530537607913144}
   m_Mesh: {fileID: 4300000, guid: 5fa1aa5754f24b04e8dec2ad020d0275, type: 3}
+--- !u!114 &114609035289629044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1536887577533160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf88a28b3b7148b1980f2c2fc3b14ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 5
+  minMagnitude: 0.4
+  maxMagnitude: 0.4
+  minOscillations: 30
+  maxOscillations: 30
+  explosionMat: {fileID: 2100000, guid: a3725b992cb9f8143a15efbd1e3eb39f, type: 2}
+  lightColor: {r: 0.96218234, g: 1, b: 0.05098039, a: 1}
+  explosionSound: {fileID: 8300000, guid: 4714774b0a1134d1aa5d1cc6826c0eab, type: 3}
+  maxExplosions: 1
+  explosionRadius: 3
+  debrisPrefabs:
+  - {fileID: 1856431030928574, guid: 8c3ac24cebac2b846a147c50ce23c933, type: 2}
+  - {fileID: 1579521966338138, guid: cc5394957ca36f64c88765288769bdef, type: 2}
+  - {fileID: 1474592125815770, guid: 8087265337bd9e64e96f2bbe4031387b, type: 2}
+  - {fileID: 1732948879066088, guid: 1913dffdbd626c64990cac5cbad40be5, type: 2}
+  debrisSpinForce: 50000
+  minDebris: 1
+  maxDebris: 3
 --- !u!136 &136122578284554562
 CapsuleCollider:
   m_ObjectHideFlags: 1

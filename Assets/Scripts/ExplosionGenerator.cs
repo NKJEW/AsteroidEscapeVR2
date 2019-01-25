@@ -15,14 +15,14 @@ public class ExplosionGenerator : MonoBehaviour {
 
     float size;
 
-    public void Init(float newSize, Material glowMat, Color lightColor, AudioClip explosionSound, bool isPlayerBomb) {
+    public void Init(float newSize, Material glowMat, Color lightColor, AudioClip explosionSound, bool forceRender, bool isPlayerBomb) {
         AudioSource soundEffect = GetComponent<AudioSource>();
         soundEffect.clip = explosionSound;
         soundEffect.Play();
 
         size = newSize;
 
-        if (!isPlayerBomb && Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) > maxLoadDistance) {
+        if (!forceRender && Vector3.Distance(FindObjectOfType<PlayerController>().transform.position, transform.position) > maxLoadDistance) {
             Destroy(gameObject);
             return;
         }

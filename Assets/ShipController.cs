@@ -87,7 +87,7 @@ public class ShipController : MonoBehaviour {
 			Destroy(item.gameObject, 20f);
 		}
 
-		TerrainGenerator.instance.CreateExplosion(transform.position, 12f, explosionMat, explosionColor, explosionSound, true);
+		TerrainGenerator.instance.CreateExplosion(transform.position, 12f, explosionMat, explosionColor, explosionSound, true, false);
 		Destroy(gameObject);
 	}
 

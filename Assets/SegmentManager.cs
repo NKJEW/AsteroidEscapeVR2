@@ -9,11 +9,15 @@ public class SegmentManager : MonoBehaviour {
     public Transform followPoint; // the worm's head
     Rigidbody followRb;
 
-    public List<Vector3> targetPositions = new List<Vector3>();
-    public List<Transform> segments = new List<Transform>();
-    public float timeRatio = 0f;
+    List<Vector3> targetPositions = new List<Vector3>();
+    List<Transform> segments = new List<Transform>();
+    float timeRatio = 0f;
 
     bool isActive;
+
+	[Header("Death")]
+	public float segmentExplodeDelayMin;
+	public float segmentExplodeDelayMax;
 
 
 
@@ -80,4 +84,22 @@ public class SegmentManager : MonoBehaviour {
             segments[index].LookAt(lookTarget);
         }
     }
+
+	public void StartDeathSequence () {
+		isActive = false;
+		StartCoroutine(StartExplosionSequence());
+	}
+
+	IEnumerator StartExplosionSequence () {
+		for (int i = segmentCount - 1; i >= 0; i--) {
+			float timer = 0;
+			float targetTime = Random.Range(segmentExplodeDelayMin, segmentExplodeDelayMax);
+			while (timer < targetTime) {
+				timer += Time.deltaTime;
+				yield return new WaitForEndOfFrame();
+			}
+			segments[i].GetComponent<SegmentController>().StartDeathSequence();
+		}
+		followPoint.GetComponentInParent<WormController>().GetComponent<SegmentController>().StartDeathSequence();
+	}
 }
