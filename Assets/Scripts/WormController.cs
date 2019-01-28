@@ -44,6 +44,7 @@ public class WormController : MonoBehaviour {
 	public AudioSource deathSound;
 
     Vector3 nextTarget;
+    Transform ship;
     float nextTargetUpdate;
 
 	public int health;
@@ -55,6 +56,8 @@ public class WormController : MonoBehaviour {
 		player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
+
+        ship = FindObjectOfType<ShipController>().transform; //first waypoint is the ship
 	}
 
     void Update() {
@@ -85,6 +88,10 @@ public class WormController : MonoBehaviour {
                 } else {
                     if ((player.transform.position.z - transform.position.z) < 50f) { //if the worm is close enough
                         curTarget = player.transform.position;
+                    }
+
+                    if (ship != null && player.transform.position.z - ship.transform.position.z < 100f) { //arbitrary distance before worm gives up on the ship
+                        curTarget = ship.position;
                     }
 
                     Quaternion goalRot = Quaternion.LookRotation((curTarget - transform.position).normalized, Vector3.up);
