@@ -164,7 +164,7 @@ public class PlayerController :MonoBehaviour {
 
         if (!hasFallen && transform.position.y < deathHeight) {
             hasFallen = true;
-            SceneFader.instance.FadeToScene(0, Color.black, 0.5f);
+            SceneFader.instance.Fade(0.5f, 0f, true);
         }
 	}
 
@@ -182,7 +182,7 @@ public class PlayerController :MonoBehaviour {
         FreezePlayer();
         WormController worm = FindObjectOfType<WormController>();
         CameraLookAt(worm.transform.position, 2f);
-        SceneFader.instance.FadeToText("You win", Color.black, 1f, 8f);
+        SceneFader.instance.FadeWithText("You win", 1f, 8f, 2f, 10f, true);
     }
 
     public void SetRigidbodyActive(bool isActive) {

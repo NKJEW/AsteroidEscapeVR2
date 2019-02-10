@@ -24,16 +24,19 @@ public class SceneFader : MonoBehaviour {
 		}
 	}
 
-	public void FadeToScene(int buildIndex, Color color, float fadeTime) {
+	public void Fade(float fadeTime, float delay, bool reloadsLevel) {
 		GetComponent<Canvas>().worldCamera = Camera.main;
-		SetColor(color);
-        StartCoroutine (SwitchScenes(buildIndex, fadeTime));
+        SetColor(Color.black);
+        if (reloadsLevel) {
+            StartCoroutine(SwitchScenes(0, fadeTime, delay));
+        } else {
+            StartCoroutine(FadeIn(fadeTime, delay));
+        }
 	}
 
-    public void FadeToText(string message, Color color, float fadeTime, float delay) {
-        GetComponent<Canvas>().worldCamera = Camera.main;
-        SetColor(color);
-        StartCoroutine(ShowText(message, fadeTime, delay));
+    public void FadeWithText(string message, float textFadeTime, float textFadeDelay, float screenFadeTime, float screenFadeDelay, bool reloadsLevel) {
+        Fade(screenFadeTime, screenFadeDelay, reloadsLevel);
+        StartCoroutine(ShowText(message, textFadeTime, textFadeDelay));
     }
 
 	void Start() {
@@ -47,9 +50,9 @@ public class SceneFader : MonoBehaviour {
 		zeroColor = new Color(color.r, color.g, color.b, 0f);
 	}
 
-	IEnumerator SwitchScenes(int buildIndex, float fadeTime) {
+	IEnumerator SwitchScenes(int buildIndex, float fadeTime, float delay) {
         if (!isFadedOut) {
-            yield return StartCoroutine(FadeIn(fadeTime));
+            yield return StartCoroutine(FadeIn(fadeTime, delay));
         }
 
 		AsyncOperation loadingLevel = SceneManager.LoadSceneAsync (buildIndex);
@@ -57,6 +60,8 @@ public class SceneFader : MonoBehaviour {
 
 		GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
 		yield return new WaitForSeconds(0.2f);
+        messageText.enabled = false;
+        messageText.text = "";
 
 		yield return StartCoroutine (FadeOut(fadeTime));
 	}
@@ -64,15 +69,25 @@ public class SceneFader : MonoBehaviour {
     IEnumerator ShowText(string message, float fadeTime, float delay) {
         yield return new WaitForSeconds(delay);
 
-        if (!isFadedOut) {
-            yield return StartCoroutine(FadeIn(fadeTime));
-        }
-
         messageText.text = message;
         messageText.enabled = true;
+        messageText.color = Color.clear;
+
+        float p = 0f;
+        float t = Time.fixedUnscaledDeltaTime;
+
+        while (p < 1f) {
+            messageText.color = Color.Lerp(Color.clear, Color.white, p);
+            p += t / fadeTime;
+            yield return new WaitForSecondsRealtime(t);
+        }
+
+        messageText.color = Color.white;
     }
 		
-	IEnumerator FadeIn(float fadeTime) {
+	IEnumerator FadeIn(float fadeTime, float delay = 0f) {
+        yield return new WaitForSeconds(delay);
+
 		fader.raycastTarget = true;
 		fader.color = zeroColor;
 		float p = 0f;
