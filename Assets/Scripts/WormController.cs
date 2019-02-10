@@ -159,7 +159,7 @@ public class WormController : MonoBehaviour {
 		player.PlayerLerpTo(swallowStartPos.position - camOffset, 1f);
 		yield return new WaitForSeconds(1.01f);
 
-        SceneFader.instance.FadeWithText("You died", 1f, swallowTime - 1f, 1f, swallowTime, true);
+        SceneFader.instance.FadeWithText("You died", 1f, swallowTime - 1f, 1f, swallowTime + 4f, true);
 
 		player.PlayerLerpTo(swallowEndPos.position - camOffset, swallowTime);
 		yield return new WaitForSeconds(swallowTime);

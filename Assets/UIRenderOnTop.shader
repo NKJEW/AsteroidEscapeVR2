@@ -1,5 +1,9 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "UI/UIRenderOnTop"
 {
 	Properties
@@ -65,6 +69,7 @@ Shader "UI/UIRenderOnTop"
 				};
 
 				fixed4 _Color;
+				fixed4 _TextureSampleAdd; //Added for font color support
 
 				v2f vert(appdata_t IN)
 				{
@@ -82,9 +87,9 @@ Shader "UI/UIRenderOnTop"
 
 				fixed4 frag(v2f IN) : SV_Target
 				{
-					half4 color = tex2D(_MainTex, IN.texcoord) * IN.color;
-					clip(color.a - 0.01);
-					return color;
+				half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;  //Added for font color support
+				clip(color.a - 0.01);
+				return color;
 				}
 			ENDCG
 			}

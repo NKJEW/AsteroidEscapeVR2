@@ -182,7 +182,7 @@ public class PlayerController :MonoBehaviour {
         FreezePlayer();
         WormController worm = FindObjectOfType<WormController>();
         CameraLookAt(worm.transform.position, 2f);
-        SceneFader.instance.FadeWithText("You win", 1f, 8f, 2f, 10f, true);
+        SceneFader.instance.FadeWithText("You win", 1f, 9f, 2f, 15f, true);
     }
 
     public void SetRigidbodyActive(bool isActive) {
