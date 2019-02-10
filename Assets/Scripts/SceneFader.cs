@@ -9,6 +9,8 @@ public class SceneFader : MonoBehaviour {
 
 	public static SceneFader instance;
 	public Image fader { get; private set; }
+    public Text messageText { get; private set; }
+    public bool isFadedOut;
 
 	Color fullColor;
 	Color zeroColor;
@@ -27,9 +29,17 @@ public class SceneFader : MonoBehaviour {
 		SetColor(color);
         StartCoroutine (SwitchScenes(buildIndex, fadeTime));
 	}
-		
+
+    public void FadeToText(string message, Color color, float fadeTime, float delay) {
+        GetComponent<Canvas>().worldCamera = Camera.main;
+        SetColor(color);
+        StartCoroutine(ShowText(message, fadeTime, delay));
+    }
+
 	void Start() {
 		fader = gameObject.GetComponentInChildren<Image> ();
+        messageText = gameObject.GetComponentInChildren<Text> ();
+        messageText.enabled = false;
 	}
 
 	public void SetColor(Color color) {
@@ -37,8 +47,10 @@ public class SceneFader : MonoBehaviour {
 		zeroColor = new Color(color.r, color.g, color.b, 0f);
 	}
 
-	public IEnumerator SwitchScenes(int buildIndex, float fadeTime) {
-        yield return StartCoroutine (FadeIn(fadeTime));
+	IEnumerator SwitchScenes(int buildIndex, float fadeTime) {
+        if (!isFadedOut) {
+            yield return StartCoroutine(FadeIn(fadeTime));
+        }
 
 		AsyncOperation loadingLevel = SceneManager.LoadSceneAsync (buildIndex);
 		yield return new WaitUntil (() => loadingLevel.isDone);
@@ -48,6 +60,17 @@ public class SceneFader : MonoBehaviour {
 
 		yield return StartCoroutine (FadeOut(fadeTime));
 	}
+
+    IEnumerator ShowText(string message, float fadeTime, float delay) {
+        yield return new WaitForSeconds(delay);
+
+        if (!isFadedOut) {
+            yield return StartCoroutine(FadeIn(fadeTime));
+        }
+
+        messageText.text = message;
+        messageText.enabled = true;
+    }
 		
 	IEnumerator FadeIn(float fadeTime) {
 		fader.raycastTarget = true;
@@ -61,6 +84,8 @@ public class SceneFader : MonoBehaviour {
 			yield return new WaitForSecondsRealtime (t);
 		}
 		fader.color = fullColor;
+
+        isFadedOut = true;
 	}
 
 	IEnumerator FadeOut(float fadeTime) {
@@ -75,5 +100,7 @@ public class SceneFader : MonoBehaviour {
 		}
 		fader.color = zeroColor;
 		fader.raycastTarget = false;
+
+        isFadedOut = false;
 	}
 }

@@ -19,12 +19,13 @@ public class SegmentManager : MonoBehaviour {
 	public float segmentExplodeDelayMin;
 	public float segmentExplodeDelayMax;
 
-
-
-	void Start () {
+    void Awake() {
         isActive = true;
-
         followRb = followPoint.GetComponentInParent<Rigidbody>();
+    }
+
+    public void Init() {
+        transform.parent = null;
 
         //initilize segment positions
         Vector3 lastPos = followPoint.position;
