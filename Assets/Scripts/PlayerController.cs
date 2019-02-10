@@ -127,7 +127,7 @@ public class PlayerController :MonoBehaviour {
 
 	public void CameraLookAt (Vector3 point, float time) {
 		initialRot = transform.rotation;
-		targetRot = Quaternion.LookRotation(point - transform.position) * Camera.main.transform.rotation;
+		targetRot = Quaternion.LookRotation(point - transform.position) * Quaternion.Inverse(Camera.main.transform.rotation);
 		lookAtTime = time;
 		lookAtTimer = 0f;
 		lookAtActive = true;
