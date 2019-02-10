@@ -51,6 +51,7 @@ public class WormController : MonoBehaviour {
 
     Rigidbody rb;
 	Animator anim;
+    SegmentManager segments;
 
 	void Start () {
 		player = FindObjectOfType<PlayerController>();
@@ -58,6 +59,8 @@ public class WormController : MonoBehaviour {
 		anim = GetComponent<Animator>();
 
         ship = FindObjectOfType<ShipController>().transform; //first waypoint is the ship
+        segments = GetComponentInChildren<SegmentManager>();
+        segments.Init();
 	}
 
     void Update() {
@@ -144,9 +147,7 @@ public class WormController : MonoBehaviour {
 
     public void StartSwallowSequence() {
         state = State.Swallowing;
-		rb.isKinematic = true;
-		rb.velocity = Vector3.zero;
-		rb.angularVelocity = Vector3.zero;
+        Stop();
 
 		player.CameraLookAt(lookPoint.position, 1.5f);
 		StartCoroutine(SwallowSequence());
@@ -169,6 +170,12 @@ public class WormController : MonoBehaviour {
     void OnSwallowComplete() {
         print("u ded");
         state = State.Finished;
+    }
+
+    public void Stop() {
+        rb.isKinematic = true;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
     }
 
     float CalculateMusicIntensity() {
@@ -203,7 +210,7 @@ public class WormController : MonoBehaviour {
 		state = State.Dead;
 
 		FindObjectOfType<PlayerController>().StartWin();
-		FindObjectOfType<SegmentManager>().StartDeathSequence();
+        segments.StartDeathSequence();
 	}
 
 	IEnumerator SlowAnimation (float time) {
