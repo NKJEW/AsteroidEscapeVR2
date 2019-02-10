@@ -450,7 +450,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1306545450099918}
-  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalRotation: {x: 0.08715578, y: 0, z: 0, w: 0.9961947}
   m_LocalPosition: {x: 0, y: 0.055, z: 0.05}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
@@ -460,7 +460,7 @@ Transform:
   - {fileID: 4896168396132670}
   m_Father: {fileID: 4932850876286010}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
 --- !u!4 &4422941103785482
 Transform:
   m_ObjectHideFlags: 1
@@ -1185,7 +1185,7 @@ MonoBehaviour:
   swingForce: 150000
   grabThrowForceMul: 2000000
   maxThrowForce: 300000
-  grappleTolerence: 2
+  grappleTolerence: 4
   grabTolerence: 0.2
   grabberSpeed: 100
   bombLaunchRecoilForce: 100000
