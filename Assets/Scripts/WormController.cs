@@ -89,7 +89,7 @@ public class WormController : MonoBehaviour {
                     curTarget = player.transform.position;
                     transform.LookAt(player.transform);
                 } else {
-                    if ((player.transform.position.z - transform.position.z) < 50f) { //if the worm is close enough
+                    if ((player.transform.position.z - transform.position.z) < 75f) { //if the worm is close enough
                         curTarget = player.transform.position;
                     }
 
@@ -98,7 +98,7 @@ public class WormController : MonoBehaviour {
                     }
 
                     Quaternion goalRot = Quaternion.LookRotation((curTarget - transform.position).normalized, Vector3.up);
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, goalRot, 40f * Time.deltaTime);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, goalRot, 4f * speed * Time.deltaTime);
                 }
 
                 rb.velocity = transform.forward * curSpeed;
