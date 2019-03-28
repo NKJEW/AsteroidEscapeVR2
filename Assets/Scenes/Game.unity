@@ -790,7 +790,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 0
+    height: 1
   near clip plane: 0.3
   far clip plane: 250
   field of view: 60
@@ -8898,6 +8898,11 @@ Prefab:
     - target: {fileID: 4109416645022016, guid: c1d6a53ba9688c44982fad689a10c743, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114007433073700038, guid: c1d6a53ba9688c44982fad689a10c743,
+        type: 2}
+      propertyPath: spawnDistance
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1d6a53ba9688c44982fad689a10c743, type: 2}
