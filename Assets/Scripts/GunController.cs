@@ -20,7 +20,9 @@ public class GunController : MonoBehaviour {
 	public float swingForce;
 	public float grabThrowForceMul;
 	public float maxThrowForce;
-	public float grappleTolerence;
+	public float minGrappleTolerence;
+	public float maxGrappleTolerence;
+	public int grappleResolution;
 	public float grabTolerence;
 	public float grabberSpeed;
 	public float bombLaunchRecoilForce;
@@ -354,8 +356,23 @@ public class GunController : MonoBehaviour {
 	AttachData GetGrappleTarget ()
 	{
 		RaycastHit hit;
-		Physics.SphereCast(spawn.position, grappleTolerence, spawn.transform.forward, out hit, maxRange, mask);
-		return new AttachData (hit.point, hit.transform);
+		float distStep = maxRange / grappleResolution;
+		float sizeStep = (maxGrappleTolerence - minGrappleTolerence) / grappleResolution;
+
+		float curSize = minGrappleTolerence;
+		Vector3 curPos = spawn.position;
+
+		for (int i = 0; i < grappleResolution; i++) {
+			Physics.SphereCast(curPos, curSize, spawn.transform.forward, out hit, distStep, mask);
+			//Debug.DrawLine(curPos + Vector3.up * curSize, curPos + spawn.transform.forward * distStep, Color.yellow, 1f);
+			if (hit.transform != null) {
+				print(hit.transform);
+				return new AttachData(hit.point, hit.transform);
+			}
+			curPos += spawn.transform.forward * distStep;
+			curSize += sizeStep;
+		}
+		return new AttachData (Vector3.zero, null);
 	}
 
 	AttachData? GetGrabTarget ()
