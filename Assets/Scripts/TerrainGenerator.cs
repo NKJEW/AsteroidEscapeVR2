@@ -136,7 +136,7 @@ public class TerrainGenerator : MonoBehaviour {
         float launchSpeed = (!isFlaming) ? Random.Range(minLaunchSpeed, maxLaunchSpeed) : Random.Range(minFlamingSpeed, maxFlamingSpeed);
         float buffer = Mathf.Max(launchRadius * playerRb.velocity.z / launchSpeed, 50f) + Random.Range(-launchBufferOffset, launchBufferOffset); //z position to spawn at, include this arbitrary minimum distance so that it can't be too close or spawn behind us
 
-        float randomAngle = Random.Range(0, Mathf.PI); // a random angle on the top of the unit circle
+        float randomAngle = Random.Range(Mathf.PI / 6f, 5f * Mathf.PI / 6f); // a random angle from π/6 to 5π/6
         Vector3 spawnPos = new Vector3(Mathf.Cos(randomAngle) * launchRadius, Mathf.Sin(randomAngle) * launchRadius, playerRb.position.z + buffer);
 
         GameObject newMovingAsteroid;
