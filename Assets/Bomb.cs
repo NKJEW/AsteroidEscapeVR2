@@ -37,7 +37,13 @@ public class Bomb : Grabable {
 		coll.enabled = false;
 		rb.isKinematic = true;
 		transform.Find("Blinking").gameObject.SetActive(false);
-        hasGrabbedBomb = false;
+		if (!hasGrabbedBomb) {
+			Bomb[] allBombs = FindObjectsOfType<Bomb>();
+			foreach (Bomb bomba in allBombs) {
+				bomba.DisableGrabText();
+			}
+			hasGrabbedBomb = true;
+		}
 	}
 
     public void DisableGrabText() {
