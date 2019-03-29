@@ -18,8 +18,12 @@ public class WormController : MonoBehaviour {
 	public float maxFollowDist;
 	public float speed;
 	public float speedIncreaseRate;
+    public float speedRestoreTime;
+    public float maxSpeed;
     public float minTargetUpdateTime;
     public float maxTargetUpdateTime;
+    float trueSpeed;
+    float speedRestoreCompleteTime;
 
     public float spawnDistance; //how far does the player have to be away before the worm will appear?
 
@@ -61,6 +65,8 @@ public class WormController : MonoBehaviour {
         ship = FindObjectOfType<ShipController>().transform; //first waypoint is the ship
         segments = GetComponentInChildren<SegmentManager>();
         segments.Init();
+
+        trueSpeed = speed;
 	}
 
     void Update() {
@@ -76,7 +82,7 @@ public class WormController : MonoBehaviour {
         switch (state) {
             case State.Chasing:
                 float dist = (transform.position - player.transform.position).magnitude;
-                float curSpeed = speed;
+                float curSpeed = trueSpeed;
 
                 if (transform.position.z > nextTarget.z) {
                     UpdateTarget();
@@ -103,9 +109,12 @@ public class WormController : MonoBehaviour {
 
                 rb.velocity = transform.forward * curSpeed;
 
-				if (speed < 40f) {
-					speed += speedIncreaseRate * Time.deltaTime;
-				}
+                if (Time.time < speedRestoreCompleteTime) {
+                    trueSpeed = Mathf.Min(trueSpeed + (((speed - trueSpeed) / speedRestoreTime) * Time.deltaTime), speed);
+                } else if (speed < maxSpeed) {
+                    speed += speedIncreaseRate * Time.deltaTime;
+                    trueSpeed = speed;
+                }
 
                 if (Time.time > nextBellow) {
                     Bellow();
@@ -198,7 +207,10 @@ public class WormController : MonoBehaviour {
 			player.SlowTimeStart();
 
 			speedIncreaseRate *= 1.6f;
-			speed *= 0.6f;
+            trueSpeed *= 0.6f;
+            speed *= 1.25f;
+            speed = Mathf.Min(speed, maxSpeed);
+            speedRestoreCompleteTime = Time.time + speedRestoreTime;
 		}
 	}
 
