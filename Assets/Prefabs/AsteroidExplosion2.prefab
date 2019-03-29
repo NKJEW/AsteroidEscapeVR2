@@ -221,28 +221,37 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxLoadDistance: 60
-  explosionForce: 300000
+  maxLoadDistance: 100
+  explosionForce: 150000
   falloffCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.06383033
-      outSlope: -0.06383033
+      inSlope: -0.059748724
+      outSlope: -0.059748724
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.19583334
+      outWeight: 0.055276383
+    - serializedVersion: 3
+      time: 0.7999568
+      value: 0.7026255
+      inSlope: -1.1030707
+      outSlope: -1.1030707
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0.012500167
-      inSlope: -2.7692285
-      outSlope: -2.7692285
+      inSlope: -7.065254
+      outSlope: -7.065254
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.10833335
+      inWeight: 0.050240334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
