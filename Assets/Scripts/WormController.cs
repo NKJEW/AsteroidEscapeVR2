@@ -135,7 +135,7 @@ public class WormController : MonoBehaviour {
     }
 
     void Activate() {
-        transform.position = player.transform.position - Vector3.forward * maxFollowDist + Vector3.down * 20; // start arbitrarily below the belt
+        //transform.position = player.transform.position - Vector3.forward * maxFollowDist + Vector3.down * 20; // start arbitrarily below the belt
         state = State.Chasing;
         Bellow();
     }
