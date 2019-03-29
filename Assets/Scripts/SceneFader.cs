@@ -28,7 +28,7 @@ public class SceneFader : MonoBehaviour {
 		GetComponent<Canvas>().worldCamera = Camera.main;
         SetColor(Color.black);
         if (reloadsLevel) {
-            StartCoroutine(SwitchScenes(0, fadeTime, delay));
+            StartCoroutine(SwitchScenes(1, fadeTime, delay));
         } else {
             StartCoroutine(FadeIn(fadeTime, delay));
         }
