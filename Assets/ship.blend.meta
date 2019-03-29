@@ -15,6 +15,7 @@ ModelImporter:
     100018: shipDebris4
     100020: shipDebris5
     100022: shipMain_001
+    100024: buttonTV
     400000: Cube
     400002: //RootNode
     400004: shipDoor
@@ -27,6 +28,7 @@ ModelImporter:
     400018: shipDebris4
     400020: shipDebris5
     400022: shipMain_001
+    400024: buttonTV
     2100000: ShipMain
     2100002: ShipGlass
     2100004: ShipHighlights
@@ -54,6 +56,7 @@ ModelImporter:
     2300016: shipDebris4
     2300018: shipDebris5
     2300020: shipMain_001
+    2300022: buttonTV
     3300000: Cube
     3300002: shipDoor
     3300004: shipMain
@@ -65,6 +68,7 @@ ModelImporter:
     3300016: shipDebris4
     3300018: shipDebris5
     3300020: shipMain_001
+    3300022: buttonTV
     4300000: shipDoor
     4300002: shipMain
     4300004: Cube
@@ -76,6 +80,7 @@ ModelImporter:
     4300016: shipDebris2
     4300018: shipMain_001
     4300020: shipDebris5
+    4300022: buttonTV
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
