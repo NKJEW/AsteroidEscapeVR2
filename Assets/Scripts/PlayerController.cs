@@ -73,6 +73,8 @@ public class PlayerController :MonoBehaviour {
 		capsule = GetComponent<CapsuleCollider>();
 
 		RecenterPlayer(true);
+
+        Bomb.hasGrabbedBomb = false;
 	}
 
 	public void DisableHands () {

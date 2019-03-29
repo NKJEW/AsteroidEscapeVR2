@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bomb : Grabable {
+    public static bool hasGrabbedBomb;
+
 	public float launchSpeed;
 	public float fuze;
 	public bool armed = false;
@@ -11,6 +13,8 @@ public class Bomb : Grabable {
 
     public AudioSource tickSound;
     public AudioClip explosionSound;
+
+    public GameObject grabText;
 
     float nextTick;
     float curTickRate = 1f;
@@ -26,13 +30,19 @@ public class Bomb : Grabable {
 		blinkingEffect = transform.Find("Blinking");
 		tr = GetComponent<TrailRenderer>();
 		tr.enabled = false;
+        grabText.SetActive(!hasGrabbedBomb);
 	}
 
 	public void Attach () {
 		coll.enabled = false;
 		rb.isKinematic = true;
 		transform.Find("Blinking").gameObject.SetActive(false);
+        hasGrabbedBomb = false;
 	}
+
+    public void DisableGrabText() {
+        grabText.SetActive(false);
+    }
 
 	public void Launch (Vector3 inheritVel) {
 		armed = true;
