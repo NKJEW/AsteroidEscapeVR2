@@ -22,6 +22,8 @@ public class PlayerController :MonoBehaviour {
 	float lookAtTimer = 0f;
 	bool lockCamera = false;
 	bool lerpActive = false;
+	Vector3 lastCamPos;
+	Transform camContainer;
 
 	List<GunController> gadgets = new List<GunController>();
 	List<InteractionController> interactionHands = new List<InteractionController>();
@@ -66,6 +68,7 @@ public class PlayerController :MonoBehaviour {
 		DisableHands();
 		EnableHands(HandType.gadgets);
 
+		camContainer = transform.Find("CameraContainer");
 		rb = GetComponent<Rigidbody>();
 		capsule = GetComponent<CapsuleCollider>();
 
@@ -135,6 +138,7 @@ public class PlayerController :MonoBehaviour {
 	}
 
 	public void LockCamera () {
+		lastCamPos = camContainer.GetChild(0).localPosition;
 		lockCamera = true;
 	}
 
@@ -155,9 +159,12 @@ public class PlayerController :MonoBehaviour {
 			}
 		}
 		if (lockCamera) {
-			//transform.position = -UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.CenterEye);
-			freezeOffset = Quaternion.Inverse(UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.CenterEye));
-			transform.rotation = lookAtOffset * freezeOffset;
+			Vector3 curCamPos = camContainer.GetChild(0).localPosition;
+			Vector3 diff = curCamPos - lastCamPos;
+			camContainer.position = camContainer.position - diff;
+			//freezeOffset = Quaternion.Inverse(UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.CenterEye));
+			//transform.rotation = lookAtOffset * freezeOffset;
+			lastCamPos = curCamPos;
 		} else if (lookAtActive) {
 			transform.rotation = lookAtOffset;
 		}
@@ -170,6 +177,7 @@ public class PlayerController :MonoBehaviour {
 
     void StartSwallow() {
         FreezePlayer();
+		LockCamera();
         FindObjectOfType<WormController>().StartSwallowSequence();
     }
 
