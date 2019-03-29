@@ -366,7 +366,6 @@ public class GunController : MonoBehaviour {
 			Physics.SphereCast(curPos, curSize, spawn.transform.forward, out hit, distStep, mask);
 			//Debug.DrawLine(curPos + Vector3.up * curSize, curPos + spawn.transform.forward * distStep, Color.yellow, 1f);
 			if (hit.transform != null) {
-				print(hit.transform);
 				return new AttachData(hit.point, hit.transform);
 			}
 			curPos += spawn.transform.forward * distStep;
