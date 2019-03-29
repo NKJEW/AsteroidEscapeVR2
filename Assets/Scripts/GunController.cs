@@ -104,6 +104,12 @@ public class GunController : MonoBehaviour {
 				return;
 			}
 		}
+		// notify bomb
+		Bomb possibleBomb = data.obj.GetComponent<Bomb>();
+		if (possibleBomb != null) {
+			possibleBomb.DisableGrabText();
+		}
+
 		state = State.extending;
         grappleSound.Play();
 
