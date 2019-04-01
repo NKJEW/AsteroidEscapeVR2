@@ -16,6 +16,8 @@ public class ShipController : MonoBehaviour {
 	public WindZone wind;
 	public ParticleSystem airParticles;
 	public AudioSource alarm;
+    public AudioSource doors;
+    public AudioSource buttonSound;
 	public LinePuffGenerator puffs;
 
 	[Header("Explosion")]
@@ -64,16 +66,16 @@ public class ShipController : MonoBehaviour {
 		}
 	}
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            OpenHanger();
+        }
+    }
+
 	private void OnCollisionEnter (Collision collision) {
 		if (collision.gameObject.tag == "Deadly") {
 			Explode();
 		}
-	}
-
-	private void Update () {
-		// (Input.GetKeyDown(KeyCode.Space)) {
-		//xplode();
-		//
 	}
 
 	void Explode () {
@@ -92,9 +94,12 @@ public class ShipController : MonoBehaviour {
 	}
 
 	IEnumerator HangerOpenRoutine () {
+        buttonSound.Play();
 		anim.SetTrigger("Open");
 		ChangeLightColor(emergencyColor);
 		yield return new WaitForSeconds(1f);
+        doors.Play();
+
 		puffs.Init(4f);
 		yield return new WaitForSeconds(0.4f);
 		SuckDebris();
