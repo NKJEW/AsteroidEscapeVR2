@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8388,6 +8388,11 @@ Prefab:
         type: 2}
       propertyPath: maxChaosFlamingChance
       value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114757229838512184, guid: 96324e14755db455ea3c0c1adbbcc164,
+        type: 2}
+      propertyPath: bannedBombZone
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96324e14755db455ea3c0c1adbbcc164, type: 2}

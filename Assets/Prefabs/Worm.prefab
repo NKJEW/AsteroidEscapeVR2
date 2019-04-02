@@ -1432,7 +1432,7 @@ MonoBehaviour:
   maxFollowDist: 150
   speed: 4
   speedIncreaseRate: 0.1
-  speedRestoreTime: 4
+  speedRestoreTime: 10
   maxSpeed: 40
   minTargetUpdateTime: 5
   maxTargetUpdateTime: 10

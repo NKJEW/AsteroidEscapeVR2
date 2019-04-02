@@ -206,9 +206,9 @@ public class WormController : MonoBehaviour {
 			hurtSound.Play();
 			player.SlowTimeStart();
 
-			speedIncreaseRate *= 1.6f;
-            trueSpeed *= 0.6f;
-            speed *= 1.25f;
+			speedIncreaseRate *= 1.25f;
+            trueSpeed = 0f;
+            //speed *= 1.25f;
             speed = Mathf.Min(speed, maxSpeed);
             speedRestoreCompleteTime = Time.time + speedRestoreTime;
 		}
