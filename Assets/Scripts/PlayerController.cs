@@ -86,6 +86,8 @@ public class PlayerController :MonoBehaviour {
 			con.Detach();
 			con.gameObject.SetActive(false); ;
 		}
+
+        FindObjectOfType<DistanceTracker>().gameObject.SetActive(false);
 	}
 
 	public enum HandType {
@@ -190,6 +192,7 @@ public class PlayerController :MonoBehaviour {
 
     public void StartWin() {
         FreezePlayer();
+        FindObjectOfType<DistanceTracker>().gameObject.SetActive(false);
         WormController worm = FindObjectOfType<WormController>();
         CameraLookAt(worm.transform.position, 2f);
         SceneFader.instance.FadeWithText("You win", 1f, 9f, 2f, 15f, true);
