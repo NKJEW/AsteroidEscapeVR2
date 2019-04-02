@@ -323,10 +323,10 @@ public class GunController : MonoBehaviour {
 			// attach to object if already grappling
 			AttachData? possibleGrab = GetGrabTarget();
 			if (possibleGrab.HasValue) {
-				if (possibleGrab.Value.obj != otherGun.grabed.transform) { // dont grab onto thing other hand is reeling in
+				//if (possibleGrab.Value.obj != otherGun.grabed.transform) { // dont grab onto thing other hand is reeling in
 					FinishRetract();
 					GrabAttach(possibleGrab.Value);
-				}
+				//}
 				
 			}
 		} else if (state == State.grabing) {

@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
-using UnityEngine.SceneManagement;
 
 public class TitleScene : MonoBehaviour {
-    SteamVR_Input_Sources inputSources;
+    public SteamVR_Input_Sources inputSources;
     public SteamVR_Action_Single triggerAction;
 
+	bool switching = false;
+
     void Update() {
-        if (SteamVR_Input._default.inActions.GrabPinch.GetStateDown(inputSources)) {
+        if (!switching && SteamVR_Input._default.inActions.GrabPinch.GetStateDown(inputSources)) {
             SwitchScenes();
         }
     }
 
     void SwitchScenes() {
-        SceneManager.LoadScene(1);
+		//print("INPPIUT");
+		switching = true;
+		SceneFader.instance.Fade(1.5f, 0f, true);
     }
 }
