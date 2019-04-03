@@ -104,6 +104,9 @@ public class ShipController : MonoBehaviour {
 		yield return new WaitForSeconds(0.4f);
 		SuckDebris();
 		alarm.Play();
+
+		//yield return new WaitForSeconds(3f);
+		//FindObjectOfType<DistanceTracker>().gameObject.SetActive(true);
 	}
 
 	IEnumerator SuckObject (Rigidbody rb, float duration) {

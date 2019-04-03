@@ -1429,7 +1429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startFollowDist: 0
-  maxFollowDist: 150
+  maxFollowDist: 155
   speed: 4
   speedIncreaseRate: 0.1
   speedRestoreTime: 10
