@@ -18,6 +18,6 @@ public class TitleScene : MonoBehaviour {
     void SwitchScenes() {
 		//print("INPPIUT");
 		switching = true;
-		SceneFader.instance.Fade(1.5f, 0f, true, true);
+		SceneFader.instance.Fade(1.5f, 0f, true);
     }
 }

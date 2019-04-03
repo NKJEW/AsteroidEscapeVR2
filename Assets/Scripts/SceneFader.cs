@@ -24,11 +24,11 @@ public class SceneFader : MonoBehaviour {
 		}
 	}
 
-	public void Fade(float fadeTime, float delay, bool reloadsLevel, bool destroyFader = false) {
+	public void Fade(float fadeTime, float delay, bool reloadsLevel) {
 		GetComponent<Canvas>().worldCamera = Camera.main;
         SetColor(Color.black);
         if (reloadsLevel) {
-            StartCoroutine(SwitchScenes(1, fadeTime, delay, destroyFader));
+            StartCoroutine(SwitchScenes(1, fadeTime, delay));
         } else {
             StartCoroutine(FadeIn(fadeTime, delay));
         }
@@ -50,23 +50,19 @@ public class SceneFader : MonoBehaviour {
 		zeroColor = new Color(color.r, color.g, color.b, 0f);
 	}
 
-	IEnumerator SwitchScenes(int buildIndex, float fadeTime, float delay, bool destroyFader = false) {
+	IEnumerator SwitchScenes(int buildIndex, float fadeTime, float delay) {
         if (!isFadedOut) {
             yield return StartCoroutine(FadeIn(fadeTime, delay));
         }
 
 		AsyncOperation loadingLevel = SceneManager.LoadSceneAsync (buildIndex);
-		if (destroyFader) {
-			Destroy(gameObject);
-		} else {
-			yield return new WaitUntil(() => loadingLevel.isDone);
-			GetComponent<Canvas>().worldCamera = FindObjectOfType<Camera>();
-			yield return new WaitForSeconds(0.2f);
-			messageText.enabled = false;
-			messageText.text = "";
+		yield return new WaitUntil(() => loadingLevel.isDone);
+        GetComponent<Canvas>().worldCamera = Camera.main;
+		yield return new WaitForSeconds(0.2f);
+		messageText.enabled = false;
+		messageText.text = "";
 
-			yield return StartCoroutine(FadeOut(fadeTime));
-		}
+		yield return StartCoroutine(FadeOut(fadeTime));
 	}
 
     IEnumerator ShowText(string message, float fadeTime, float delay) {
