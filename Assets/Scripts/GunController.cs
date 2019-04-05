@@ -111,6 +111,7 @@ public class GunController : MonoBehaviour {
 
         if (!hasDisabledTut) {
             Destroy(FindObjectOfType<TutText>().gameObject);
+            hasDisabledTut = true;
         }
 
 		// notify bomb
