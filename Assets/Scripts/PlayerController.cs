@@ -159,25 +159,23 @@ public class PlayerController :MonoBehaviour {
 			} else {
 				lookAtOffset = Quaternion.Lerp(initialRot, targetRot, lookAtTimer / lookAtTime);
 			}
+			transform.rotation = lookAtOffset;
 		}
 		if (lockCamera) {
 			Vector3 curCamPos = camContainer.GetChild(0).localPosition;
 			Vector3 diff = curCamPos - lastCamPos;
 			camContainer.position = camContainer.position - diff;
-			//freezeOffset = Quaternion.Inverse(UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.CenterEye));
-			//transform.rotation = lookAtOffset * freezeOffset;
 			lastCamPos = curCamPos;
-		} else if (lookAtActive) {
-			transform.rotation = lookAtOffset;
 		}
 
-        if (!hasFallen && transform.position.y < deathHeight) {
-            hasFallen = true;
-            SceneFader.instance.Fade(0.5f, 0f, true);
-        }
+		if (!hasFallen && transform.position.y < deathHeight) {
+			hasFallen = true;
+			SceneFader.instance.Fade(0.5f, 0f, true, 1);
+		}
+
 	}
 
-    void StartSwallow() {
+	void StartSwallow() {
         FreezePlayer();
 		FindObjectOfType<DistanceTracker>().ToggleActive(false);
 		LockCamera();
@@ -194,7 +192,7 @@ public class PlayerController :MonoBehaviour {
 		FindObjectOfType<DistanceTracker>().ToggleActive(false);
         WormController worm = FindObjectOfType<WormController>();
         CameraLookAt(worm.transform.position, 2f);
-        SceneFader.instance.FadeWithText("You win", 1f, 9f, 2f, 15f, true);
+        SceneFader.instance.FadeWithText("You win", 1f, 9f, 2f, 15f, true, 0);
     }
 
     public void SetRigidbodyActive(bool isActive) {

@@ -6,6 +6,8 @@ public class Bomb : Grabable {
     public static bool hasGrabbedBomb;
 
 	public float launchSpeed;
+	Transform worm;
+	public float homingStrength;
 	public float fuze;
 	public bool armed = false;
     public Material explosionMat;
@@ -66,6 +68,8 @@ public class Bomb : Grabable {
 		tr.enabled = true;
 
         nextTick = Time.time + curTickRate;
+
+		worm = FindObjectOfType<WormController>().transform;
 	}
 
 	void Update () {
@@ -73,6 +77,12 @@ public class Bomb : Grabable {
 			fuze -= Time.deltaTime;
 			if (fuze <= 0f) {
 				Explode();
+			} else {
+				// home in on worm
+				if (worm != null) {
+					Vector3 targetVelocity = (worm.position - transform.position);
+					rb.velocity = Vector3.RotateTowards(rb.velocity, targetVelocity, homingStrength * Time.deltaTime, 0f);
+				}
 			}
 
             if (Time.time > nextTick) {

@@ -840,7 +840,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchSpeed: 20
-  fuze: 3
+  homingStrength: 0.2
+  fuze: 5
   armed: 0
   explosionMat: {fileID: 2100000, guid: 4bb6dbc14e0d24b06b0abccfe9ecd180, type: 2}
   lightColor: {r: 0.5254902, g: 0.9098039, b: 0.9843137, a: 1}

@@ -24,18 +24,18 @@ public class SceneFader : MonoBehaviour {
 		}
 	}
 
-	public void Fade(float fadeTime, float delay, bool reloadsLevel) {
+	public void Fade(float fadeTime, float delay, bool reloadsLevel, int sceneIndex) {
 		GetComponent<Canvas>().worldCamera = Camera.main;
         SetColor(Color.black);
         if (reloadsLevel) {
-            StartCoroutine(SwitchScenes(1, fadeTime, delay));
+            StartCoroutine(SwitchScenes(sceneIndex, fadeTime, delay));
         } else {
             StartCoroutine(FadeIn(fadeTime, delay));
         }
 	}
 
-    public void FadeWithText(string message, float textFadeTime, float textFadeDelay, float screenFadeTime, float screenFadeDelay, bool reloadsLevel) {
-        Fade(screenFadeTime, screenFadeDelay, reloadsLevel);
+    public void FadeWithText(string message, float textFadeTime, float textFadeDelay, float screenFadeTime, float screenFadeDelay, bool reloadsLevel, int sceneIndex) {
+        Fade(screenFadeTime, screenFadeDelay, reloadsLevel, sceneIndex);
         StartCoroutine(ShowText(message, textFadeTime, textFadeDelay));
     }
 
