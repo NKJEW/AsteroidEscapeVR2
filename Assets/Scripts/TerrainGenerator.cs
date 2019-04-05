@@ -132,15 +132,36 @@ public class TerrainGenerator : MonoBehaviour {
 
     void LaunchAsteroid() {
         bool isFlaming = Random.value > Mathf.Lerp(minChaosFlamingChance, maxChaosFlamingChance, GetChaosFactor());
+        bool isTargetted = isFlaming && Random.value > 0.7f;
 
         float launchSpeed = (!isFlaming) ? Random.Range(minLaunchSpeed, maxLaunchSpeed) : Random.Range(minFlamingSpeed, maxFlamingSpeed);
         float buffer = Mathf.Max(launchRadius * playerRb.velocity.z / launchSpeed, 50f) + Random.Range(-launchBufferOffset, launchBufferOffset); //z position to spawn at, include this arbitrary minimum distance so that it can't be too close or spawn behind us
 
         float randomAngle = Random.Range(Mathf.PI / 6f, 5f * Mathf.PI / 6f); // a random angle from π/6 to 5π/6
-        Vector3 spawnPos = new Vector3(Mathf.Cos(randomAngle) * launchRadius, Mathf.Sin(randomAngle) * launchRadius, playerRb.position.z + buffer);
+        Vector3 spawnPos = Vector3.zero;
+        Quaternion launchAngle = Quaternion.identity; 
 
         GameObject newMovingAsteroid;
-		Quaternion launchAngle = Quaternion.Euler(0, Random.Range(-launchConeAngle, launchConeAngle), (randomAngle * Mathf.Rad2Deg) - 180f + Random.Range(-launchConeAngle, launchConeAngle));
+
+        if (!isTargetted) {
+            spawnPos = new Vector3(Mathf.Cos(randomAngle) * launchRadius, Mathf.Sin(randomAngle) * launchRadius, playerRb.position.z + buffer);
+            launchAngle = Quaternion.Euler(0, Random.Range(-launchConeAngle, launchConeAngle), (randomAngle * Mathf.Rad2Deg) - 180f + Random.Range(-launchConeAngle, launchConeAngle));
+        } else {
+            Collider[] allColliders = Physics.OverlapSphere(new Vector3(0, 0, playerRb.position.z + buffer), beltRadius, 1 << 9);
+            if (allColliders == null || allColliders.Length == 0) {
+                spawnPos = new Vector3(Mathf.Cos(randomAngle) * launchRadius, Mathf.Sin(randomAngle) * launchRadius, playerRb.position.z + buffer);
+                launchAngle = Quaternion.Euler(0, Random.Range(-launchConeAngle, launchConeAngle), (randomAngle * Mathf.Rad2Deg) - 180f + Random.Range(-launchConeAngle, launchConeAngle));
+            } else {
+                Transform target = allColliders[Random.Range(0, allColliders.Length)].transform;
+                if (target.GetComponent<AstriodController>() == null) {
+                    spawnPos = new Vector3(Mathf.Cos(randomAngle) * launchRadius, Mathf.Sin(randomAngle) * launchRadius, playerRb.position.z + buffer);
+                    launchAngle = Quaternion.Euler(0, Random.Range(-launchConeAngle, launchConeAngle), (randomAngle * Mathf.Rad2Deg) - 180f + Random.Range(-launchConeAngle, launchConeAngle));
+                } else {
+                    spawnPos = new Vector3(Mathf.Cos(randomAngle) * launchRadius * 1.5f, Mathf.Sin(randomAngle) * launchRadius * 1.5f, 0) + target.position;
+                    launchAngle = Quaternion.Euler(0, 0, (randomAngle * Mathf.Rad2Deg) - 180f);
+                }
+            }
+        }
 
         if (!isFlaming) {
             newMovingAsteroid = CreateRandomAsteroid(spawnPos, chunks[chunks.Count - 1].transform); //include it in the farthest forward chunk so that it unloads last
