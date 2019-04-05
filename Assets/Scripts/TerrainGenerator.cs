@@ -26,6 +26,7 @@ public class TerrainGenerator : MonoBehaviour {
     public float minFlamingSpeed;
     public float maxFlamingSpeed;
     public float chaosIncreaseRate;
+    public float guaranteedHitChance;
     float nextLaunch;
 
     [Space(15)]
@@ -132,7 +133,7 @@ public class TerrainGenerator : MonoBehaviour {
 
     void LaunchAsteroid() {
         bool isFlaming = Random.value > Mathf.Lerp(minChaosFlamingChance, maxChaosFlamingChance, GetChaosFactor());
-        bool isTargetted = isFlaming && Random.value > 0.7f;
+        bool isTargetted = isFlaming && Random.value < guaranteedHitChance;
 
         float launchSpeed = (!isFlaming) ? Random.Range(minLaunchSpeed, maxLaunchSpeed) : Random.Range(minFlamingSpeed, maxFlamingSpeed);
         float buffer = Mathf.Max(launchRadius * playerRb.velocity.z / launchSpeed, 50f) + Random.Range(-launchBufferOffset, launchBufferOffset); //z position to spawn at, include this arbitrary minimum distance so that it can't be too close or spawn behind us

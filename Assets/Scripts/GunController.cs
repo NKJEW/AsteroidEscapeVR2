@@ -65,6 +65,8 @@ public class GunController : MonoBehaviour {
 	Rigidbody rb;
 	MeshRenderer barrelRenderer;
 	CapsuleCollider capsule;
+
+    static bool hasDisabledTut;
 	
 	void Start() {
 		hand = transform.parent.GetComponent<HandController>();
@@ -83,6 +85,8 @@ public class GunController : MonoBehaviour {
 		} else {
 			inputSources = SteamVR_Input_Sources.RightHand;
 		}
+
+        hasDisabledTut = false;
 	}
 
 	void GrappleAttach () {
@@ -104,6 +108,11 @@ public class GunController : MonoBehaviour {
 				return;
 			}
 		}
+
+        if (!hasDisabledTut) {
+            Destroy(FindObjectOfType<TutText>().gameObject);
+        }
+
 		// notify bomb
 		Bomb possibleBomb = data.obj.GetComponent<Bomb>();
 		if (possibleBomb != null) {
