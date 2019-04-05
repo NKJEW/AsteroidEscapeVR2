@@ -25,6 +25,10 @@ public class SceneFader : MonoBehaviour {
 	}
 
 	public void Fade(float fadeTime, float delay, bool reloadsLevel, int sceneIndex) {
+        if (sceneIndex == 1 && SceneManager.GetActiveScene().buildIndex == 0) {
+            MusicManager.instance.StartMainMusic();
+        }
+
 		GetComponent<Canvas>().worldCamera = Camera.main;
         SetColor(Color.black);
         if (reloadsLevel) {
@@ -55,12 +59,19 @@ public class SceneFader : MonoBehaviour {
             yield return StartCoroutine(FadeIn(fadeTime, delay));
         }
 
+        int prevBuildIndex = SceneManager.GetActiveScene().buildIndex;
 		AsyncOperation loadingLevel = SceneManager.LoadSceneAsync (buildIndex);
 		yield return new WaitUntil(() => loadingLevel.isDone);
         GetComponent<Canvas>().worldCamera = Camera.main;
 		yield return new WaitForSeconds(0.2f);
 		messageText.enabled = false;
 		messageText.text = "";
+
+        if (buildIndex == 0) {
+            MusicManager.instance.RestartMusic();
+        } else if(prevBuildIndex == 1) {
+            MusicManager.instance.RestartMainMusic();
+        }
 
 		yield return StartCoroutine(FadeOut(fadeTime));
 	}

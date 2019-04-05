@@ -8,10 +8,9 @@ public class MusicManager : MonoBehaviour {
     public AudioClip[] clips;
     AudioSource[] tracks;
     AudioState[] states;
+    public AudioSource titleMusic;
 
     public float maxTrackVolume;
-
-    float temp;
 
     struct AudioState {
         public int trackId;
@@ -23,13 +22,17 @@ public class MusicManager : MonoBehaviour {
     }
 
     void Awake() {
-        instance = this;
+        if (instance == null) {
+            DontDestroyOnLoad(this);
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
     }
 
     void Start() {
         InitializeTracks();
-        tracks[0].volume = maxTrackVolume; //hack to make the base track start
-        StartCoroutine(SyncMusic());
+        RestartMusic();
     }
 
     void InitializeTracks() {
@@ -39,7 +42,7 @@ public class MusicManager : MonoBehaviour {
             tracks[i] = gameObject.AddComponent<AudioSource>();
             tracks[i].clip = clips[i];
             tracks[i].loop = true;
-            tracks[i].Play();
+            //tracks[i].Play();
 			tracks[i].volume = 0;
 			tracks[i].priority = 0;
 
@@ -58,6 +61,43 @@ public class MusicManager : MonoBehaviour {
 			tracks[i].pitch = pitch;
 		}
 	}
+
+    public void RestartMusic() {
+        for (int i = 0; i < clips.Length; i++) {
+            tracks[i].Stop();
+            tracks[i].volume = 0;
+            StopAllCoroutines();
+        }
+
+        titleMusic.volume = maxTrackVolume;
+        titleMusic.Play();
+    }
+
+    public void StartMainMusic() {
+        tracks[0].timeSamples = titleMusic.timeSamples % tracks[0].clip.samples;
+        //tracks[0].volume = maxTrackVolume; //hack to make the base track start
+        for (int i = 0; i < tracks.Length; i++) {
+            tracks[i].Play();
+        }
+
+        StartCoroutine(FadeOutTitleMusic());
+        StartCoroutine(SyncMusic());
+    }
+
+    public void RestartMainMusic() {
+        for (int i = 0; i < clips.Length; i++) {
+            tracks[i].Stop();
+            tracks[i].volume = 0;
+            StopAllCoroutines();
+        }
+
+        tracks[0].timeSamples = 0;
+        tracks[0].volume = maxTrackVolume; //hack to make the base track start
+        for (int i = 0; i < tracks.Length; i++) {
+            tracks[i].Play();
+        }
+        StartCoroutine(SyncMusic());
+    }
 
 	void LateUpdate() {
         for (int i = 0; i < clips.Length; i++) {
@@ -94,5 +134,20 @@ public class MusicManager : MonoBehaviour {
 
             yield return null;
         }
+    }
+
+    IEnumerator FadeOutTitleMusic() {
+        tracks[0].volume = 0;
+
+        float p = 0f;
+        while (p < 1f) {
+            titleMusic.volume = Mathf.Lerp(maxTrackVolume, 0, p*p);
+            tracks[0].volume = Mathf.Lerp(0, maxTrackVolume, p);
+            yield return new WaitForEndOfFrame();
+            p += Time.deltaTime;
+        }
+
+        tracks[0].volume = maxTrackVolume;
+        titleMusic.Stop();
     }
 }
