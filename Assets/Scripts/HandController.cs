@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Valve.VR;
 
 public class HandController : MonoBehaviour {
 	// haptic
@@ -11,16 +10,26 @@ public class HandController : MonoBehaviour {
 		detach,
 		retractDone
 	}
-	public SteamVR_Input_Sources handType;
-	public SteamVR_Action_Vibration hapticAction;
+    //public SteamVR_Input_Sources handType;
+    //public SteamVR_Action_Vibration hapticAction;
 
-	ushort grappleHaptic = 10000;
-	ushort grabHaptic = 15000;
-	ushort detachHaptic = 1000;
-	ushort retractDoneHaptic = 2000;
+    OVRInput.Controller ovrCon;
+    public bool isRightHand;
+
+    float grappleHaptic = 0.01f;
+	float grabHaptic = 0.015f;
+	float detachHaptic = 0.001f;
+	float retractDoneHaptic = 0.002f;
+
+    bool isVibing;
+    float nextDisableTime;
+
+    void Awake() {
+        ovrCon = isRightHand ? OVRInput.Controller.RTouch : OVRInput.Controller.LTouch;
+    }
 
 	public void SetHaptic (HapticType type) {
-		ushort length = 0;
+		float length = 0;
 		if (type == HapticType.grapple) {
 			length = grappleHaptic;
 		} else if (type == HapticType.grab) {
@@ -30,11 +39,23 @@ public class HandController : MonoBehaviour {
 		} else if (type == HapticType.retractDone) {
 			length = retractDoneHaptic;
 		}
-		TriggerHapticPulse(length);
+        OVRInput.SetControllerVibration(1 / length, 1, ovrCon);
+        isVibing = true;
+        nextDisableTime = Time.time + length;
 	}
 
-	void TriggerHapticPulse (ushort microSecondsDuration) {
-		float seconds = (float)microSecondsDuration / 1000000f;
-		hapticAction.Execute(0, seconds, 1f / seconds, 1, handType);
-	}
+    void Update() {
+        if (isVibing && Time.time > nextDisableTime) {
+            isVibing = false;
+            OVRInput.SetControllerVibration(0, 0, ovrCon);
+        }
+    }
+
+    public bool TriggerDown() {
+        return OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, ovrCon);
+    }
+
+    public bool TriggerUp() {
+        return OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, ovrCon);
+    }
 }

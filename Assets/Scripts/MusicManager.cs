@@ -32,7 +32,8 @@ public class MusicManager : MonoBehaviour {
 
     void Start() {
         InitializeTracks();
-        RestartMusic();
+        StartMainMusic();
+        //RestartMusic();
     }
 
     void InitializeTracks() {
@@ -75,12 +76,12 @@ public class MusicManager : MonoBehaviour {
 
     public void StartMainMusic() {
         tracks[0].timeSamples = titleMusic.timeSamples % tracks[0].clip.samples;
-        //tracks[0].volume = maxTrackVolume; //hack to make the base track start
+        tracks[0].volume = maxTrackVolume; //hack to make the base track start
         for (int i = 0; i < tracks.Length; i++) {
             tracks[i].Play();
         }
 
-        StartCoroutine(FadeOutTitleMusic());
+        //StartCoroutine(FadeOutTitleMusic());
         StartCoroutine(SyncMusic());
     }
 

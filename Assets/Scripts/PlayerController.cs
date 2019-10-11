@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VR;
-using Valve.VR;
 
 public class PlayerController :MonoBehaviour {
 	public GameObject gadgetPrefab;
@@ -26,13 +25,8 @@ public class PlayerController :MonoBehaviour {
 	Transform camContainer;
 
 	List<GunController> gadgets = new List<GunController>();
-	List<InteractionController> interactionHands = new List<InteractionController>();
-
 	Rigidbody rb;
 	CapsuleCollider capsule;
-
-	// vehicles
-	Vehicle curVehicle;
 
 	// time slow
 	[Header("Time Slow")]
@@ -48,27 +42,18 @@ public class PlayerController :MonoBehaviour {
 			gadget.transform.localPosition = Vector3.zero;
 			gadget.transform.localRotation = Quaternion.identity;
 			gadgets.Add(gadget.GetComponent<GunController>());
-
-			GameObject interactionHand = Instantiate(interactionHandPrefab, hands[i]);
-			interactionHand.transform.localPosition = Vector3.zero;
-			interactionHand.transform.localRotation = Quaternion.identity;
-			interactionHands.Add(interactionHand.GetComponent<InteractionController>());
 		}
 
 		gadgets[0].otherGun = gadgets[1];
 		gadgets[1].otherGun = gadgets[0];
-		interactionHands[0].otherCon = interactionHands[1];
-		interactionHands[1].otherCon = interactionHands[0];
 
 		gadgets[0].conID = 0;
-		gadgets[1].conID = 1;
-		interactionHands[0].conID = 0;
-		interactionHands[1].conID = 1;
+        gadgets[1].conID = 1;
 
 		DisableHands();
 		EnableHands(HandType.gadgets);
 
-		camContainer = transform.Find("CameraContainer");
+		camContainer = transform.Find("TrackingSpace").Find("CameraContainer");
 		rb = GetComponent<Rigidbody>();
 		capsule = GetComponent<CapsuleCollider>();
 
@@ -82,10 +67,6 @@ public class PlayerController :MonoBehaviour {
 			gadget.Detach();
 			gadget.gameObject.SetActive(false);
 		}
-		foreach (var con in interactionHands) {
-			con.Detach();
-			con.gameObject.SetActive(false); ;
-		}
 	}
 
 	public enum HandType {
@@ -96,18 +77,6 @@ public class PlayerController :MonoBehaviour {
 		if (type == HandType.gadgets) {
 			foreach (var gadget in gadgets) {
 				gadget.gameObject.SetActive(true);
-			}
-			foreach (var con in interactionHands) {
-				con.Detach();
-				con.gameObject.SetActive(false);
-			}
-		} else if (type == HandType.interactionHands) {
-			foreach (var gadget in gadgets) {
-				gadget.Detach();
-				gadget.gameObject.SetActive(false);
-			}
-			foreach (var con in interactionHands) {
-				con.gameObject.SetActive(true);
 			}
 		}
 	}
@@ -205,10 +174,7 @@ public class PlayerController :MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("WormMouth")) {
             StartSwallow();
-        } else if (other.gameObject.CompareTag("Vehicle")) {
-			curVehicle = other.gameObject.GetComponent<Vehicle>();
-			curVehicle.EnterVehicle();
-		}
+        }
     }
 
 	// recentering
@@ -225,11 +191,7 @@ public class PlayerController :MonoBehaviour {
 			return;
 		}
 
-		if (curVehicle != null) {
-			RecenterPlayer(true);
-		} else {
-			RecenterPlayer();
-		}
+		RecenterPlayer();
 
 		// time slow
 		if (slowActive) {

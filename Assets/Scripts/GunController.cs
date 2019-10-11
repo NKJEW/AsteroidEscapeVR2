@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Valve.VR;
 
 public class GunController : MonoBehaviour {
 	public int conID;
@@ -47,12 +46,9 @@ public class GunController : MonoBehaviour {
     public float lowPitch;
     public float highPitch;
 
-	// visuals
+    // visuals
 
-
-	// input
-	SteamVR_Input_Sources inputSources;
-	public SteamVR_Action_Single triggerAction;
+    HandController input;
 
 	// references
 	public GunController otherGun;
@@ -67,9 +63,8 @@ public class GunController : MonoBehaviour {
 	CapsuleCollider capsule;
 
     static bool hasDisabledTut;
-	
+
 	void Start() {
-		hand = transform.parent.GetComponent<HandController>();
 		spawn = transform.Find("Offset").Find("Spawn");
 		grabber = transform.Find("Offset").Find("Grabber");
 		grabAnimator = grabber.GetComponent<Animator>();
@@ -78,16 +73,12 @@ public class GunController : MonoBehaviour {
 		pc = GetComponentInParent<PlayerController>();
 		rb = transform.parent.GetComponentInParent<Rigidbody>();
 		capsule = GetComponentInParent<CapsuleCollider>();
-		
-		// initialize input
-		if (transform.parent.name.Contains ("Left")) {
-			inputSources = SteamVR_Input_Sources.LeftHand;
-		} else {
-			inputSources = SteamVR_Input_Sources.RightHand;
-		}
+
+        // initialize input
+        hand = transform.gameObject.GetComponentInParent<HandController>();
 
         hasDisabledTut = false;
-	}
+    }
 
 	void GrappleAttach () {
 		state = State.grappling;
@@ -276,9 +267,15 @@ public class GunController : MonoBehaviour {
 		grabber.transform.position = curPos;
 	}
 
+    void LateUpdate() {
+        if (state == State.grappling) {
+            UpdateGrappler(1f);
+        }
+    }
+
 	void Update() {
-		if (SteamVR_Input._default.inActions.GrabPinch.GetStateDown(inputSources)) {
-			if (state == State.detached) {
+		if (hand.TriggerDown()) {
+            if (state == State.detached) {
 				// grab takes priority
 				AttachData? target = GetGrabTarget();
 				if (target.HasValue) {
@@ -292,8 +289,8 @@ public class GunController : MonoBehaviour {
 			}
 		}
 
-		if (state != State.retracting && SteamVR_Input._default.inActions.GrabPinch.GetStateUp(inputSources)) {
-			Detach();
+		if (state != State.retracting && hand.TriggerUp()) {
+            Detach();
 		}
 
 		if (state == State.extending) {
@@ -311,8 +308,6 @@ public class GunController : MonoBehaviour {
 				UpdateGrappler(grabberTimer / grabberTime);
 			}
 		} else if (state == State.grappling) {
-			UpdateGrappler(1f);
-
 			Vector3 diff = grabed.GetAnchorPos() - spawn.position;
 			float dist = diff.magnitude;
 			float distDiff = dist - lastDist;
@@ -386,7 +381,7 @@ public class GunController : MonoBehaviour {
 			Physics.SphereCast(curPos, curSize, spawn.transform.forward, out hit, distStep, mask);
 			//Debug.DrawLine(curPos + Vector3.up * curSize, curPos + spawn.transform.forward * distStep, Color.yellow, 1f);
 			if (hit.transform != null) {
-				return new AttachData(hit.point, hit.transform);
+                return new AttachData(hit.point, hit.transform);
 			}
 			curPos += spawn.transform.forward * distStep;
 			curSize += sizeStep;
