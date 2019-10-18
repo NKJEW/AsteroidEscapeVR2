@@ -58,4 +58,8 @@ public class HandController : MonoBehaviour {
     public bool TriggerUp() {
         return OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, ovrCon);
     }
+
+    public bool ButtonDown() {
+        return OVRInput.GetDown(OVRInput.Button.One, ovrCon);
+    }
 }

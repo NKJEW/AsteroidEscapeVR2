@@ -14,6 +14,7 @@ public class GunController : MonoBehaviour {
 		bombing
 	};
 	State state = State.detached;
+    bool isGun;
 
 	public float maxRange;
 	public float swingForce;
@@ -40,9 +41,19 @@ public class GunController : MonoBehaviour {
     public Material puffMat;
 
     [Space(15)]
+    public Material grappleMainColor;
+    public Material gunMainColor;
+    public Material grappleGlowColor;
+    public Material gunGlowColor;
+    public GameObject clawParent;
+    public Renderer mainGunRend;
+    public Renderer grabberRend;
+
+    [Space(15)]
     public AudioSource grappleSound;
     public AudioSource holdSound;
     public AudioSource bombGrabSound;
+    public AudioSource shootSound;
     public float lowPitch;
     public float highPitch;
 
@@ -56,7 +67,9 @@ public class GunController : MonoBehaviour {
 	Animator grabAnimator;
 	Transform grabber;
 	Transform spawn;
-	LineRenderer lr;
+	public LineRenderer lr;
+    public LineRenderer gunLaser;
+    float gunDeactivateTime;
 	PlayerController pc;
 	Rigidbody rb;
 	MeshRenderer barrelRenderer;
@@ -274,99 +287,151 @@ public class GunController : MonoBehaviour {
     }
 
 	void Update() {
-		if (hand.TriggerDown()) {
-            if (state == State.detached) {
-				// grab takes priority
-				AttachData? target = GetGrabTarget();
-				if (target.HasValue) {
-					GrabAttach(target.Value);
-				} else {
-					AttachData data = GetGrappleTarget();
-					if (data.obj != null) {
-						Extend(data);
-					}
-				}
-			}
-		}
+        if (!isGun) {
+            if (hand.TriggerDown()) {
+                if (state == State.detached) {
+                    // grab takes priority
+                    AttachData? target = GetGrabTarget();
+                    if (target.HasValue) {
+                        GrabAttach(target.Value);
+                    } else {
+                        AttachData data = GetGrappleTarget();
+                        if (data.obj != null) {
+                            Extend(data);
+                        }
+                    }
+                }
+            }
 
-		if (state != State.retracting && hand.TriggerUp()) {
-            Detach();
-		}
+            if (state != State.retracting && hand.TriggerUp()) {
+                Detach();
+            }
 
-		if (state == State.extending) {
-			grabberTimer += Time.deltaTime;
-			if (grabberTimer > grabberTime) {
-				GrappleAttach();
-			} else {
-				UpdateGrappler(grabberTimer / grabberTime);
-			}
-		} else if (state == State.retracting) {
-			grabberTimer -= Time.deltaTime * 2f;
-			if (grabberTimer <= 0f) {
-				FinishRetract();
-			} else {
-				UpdateGrappler(grabberTimer / grabberTime);
-			}
-		} else if (state == State.grappling) {
-			Vector3 diff = grabed.GetAnchorPos() - spawn.position;
-			float dist = diff.magnitude;
-			float distDiff = dist - lastDist;
-			float forceMul = 1f;
-			if (distDiff > 0) {
-				forceMul = 1f + (distDiff * swingMultiplier); // to make it so that the force is greater when you are on the upside of a swing
-			}
+            if (state == State.extending) {
+                grabberTimer += Time.deltaTime;
+                if (grabberTimer > grabberTime) {
+                    GrappleAttach();
+                } else {
+                    UpdateGrappler(grabberTimer / grabberTime);
+                }
+            } else if (state == State.retracting) {
+                grabberTimer -= Time.deltaTime * 2f;
+                if (grabberTimer <= 0f) {
+                    FinishRetract();
+                } else {
+                    UpdateGrappler(grabberTimer / grabberTime);
+                }
+            } else if (state == State.grappling) {
+                Vector3 diff = grabed.GetAnchorPos() - spawn.position;
+                float dist = diff.magnitude;
+                float distDiff = dist - lastDist;
+                float forceMul = 1f;
+                if (distDiff > 0) {
+                    forceMul = 1f + (distDiff * swingMultiplier); // to make it so that the force is greater when you are on the upside of a swing
+                }
 
-            //holdSound.pitch = (lowPitch - highPitch) * Mathf.Clamp01(dist / maxRange) + highPitch;
+                //holdSound.pitch = (lowPitch - highPitch) * Mathf.Clamp01(dist / maxRange) + highPitch;
 
-			if (dist > grabTolerence * 2f) {
-				Vector3 force = diff.normalized * swingForce * forceMul * Time.deltaTime;
-				rb.AddForce(force);
-				grabed.AddForce(-force);
-			}
-			lastDist = dist;
+                if (dist > grabTolerence * 2f) {
+                    Vector3 force = diff.normalized * swingForce * forceMul * Time.deltaTime;
+                    rb.AddForce(force);
+                    grabed.AddForce(-force);
+                }
+                lastDist = dist;
 
-			// attach to object if already grappling
-			AttachData? possibleGrab = GetGrabTarget();
-			if (possibleGrab.HasValue) {
-				//if (possibleGrab.Value.obj != otherGun.grabed.transform) { // dont grab onto thing other hand is reeling in
-					FinishRetract();
-					GrabAttach(possibleGrab.Value);
-				//}
-				
-			}
-		} else if (state == State.grabing) {
-			Vector3 handDiff = lastPos - spawn.position;
-			Vector3 targetPos = grabed.GetAnchorPos() + grabOffset + handDiff;
+                // attach to object if already grappling
+                AttachData? possibleGrab = GetGrabTarget();
+                if (possibleGrab.HasValue) {
+                    //if (possibleGrab.Value.obj != otherGun.grabed.transform) { // dont grab onto thing other hand is reeling in
+                    FinishRetract();
+                    GrabAttach(possibleGrab.Value);
+                    //}
 
-			// test to see if the move would put the player into an object
-			Vector3 capsuleOffset = new Vector3(capsule.center.x, 0f, capsule.center.z);
-			Collider[] colls = Physics.OverlapCapsule(targetPos + capsuleOffset + Vector3.up * (capsule.radius), targetPos + capsuleOffset + Vector3.up * (capsule.height - capsule.radius), capsule.radius, collidableLayers);
+                }
+            } else if (state == State.grabing) {
+                Vector3 handDiff = lastPos - spawn.position;
+                Vector3 targetPos = grabed.GetAnchorPos() + grabOffset + handDiff;
 
-			if (colls.Length > 0) {
-				pc.RecenterPlayer(true);
-			} else { // position valid
-				grabOffset += handDiff;
-				rb.transform.position = grabOffset + grabed.GetAnchorPos();
-				//RecenterPlayer();
-			}
+                // test to see if the move would put the player into an object
+                Vector3 capsuleOffset = new Vector3(capsule.center.x, 0f, capsule.center.z);
+                Collider[] colls = Physics.OverlapCapsule(targetPos + capsuleOffset + Vector3.up * (capsule.radius), targetPos + capsuleOffset + Vector3.up * (capsule.height - capsule.radius), capsule.radius, collidableLayers);
 
-			lastPos = spawn.position;
+                if (colls.Length > 0) {
+                    pc.RecenterPlayer(true);
+                } else { // position valid
+                    grabOffset += handDiff;
+                    rb.transform.position = grabOffset + grabed.GetAnchorPos();
+                    //RecenterPlayer();
+                }
 
-			// check to make sure still on wall
-			AttachData? possibleGrab = GetGrabTarget();
-			if (!possibleGrab.HasValue) {
-				Detach();
-				return;
-			}
+                lastPos = spawn.position;
 
-			// apply downward force to object we are grabbing
-			grabed.AddForce(rb.mass * Physics.gravity);
-		}
+                // check to make sure still on wall
+                AttachData? possibleGrab = GetGrabTarget();
+                if (!possibleGrab.HasValue) {
+                    Detach();
+                    return;
+                }
+
+                // apply downward force to object we are grabbing
+                grabed.AddForce(rb.mass * Physics.gravity);
+            }
+        } else {
+            if (hand.TriggerDown()) {
+                RaycastHit hit;
+                Physics.Raycast(spawn.position, spawn.forward, out hit, 50, mask);
+                gunLaser.SetPosition(0, spawn.position);
+
+                if (hit.transform != null) {
+                    AstriodController otherAsteroid = hit.collider.gameObject.GetComponent<AstriodController>();
+                    if (otherAsteroid != null) {
+                        otherAsteroid.Explode();
+                    }
+
+                    gunLaser.SetPosition(1, hit.transform.position);
+                } else {
+                    gunLaser.SetPosition(1, spawn.position + spawn.forward * 50);
+                }
+
+                gunLaser.enabled = true;
+                gunDeactivateTime = Time.time + 0.2f;
+
+                shootSound.Play();
+            }
+        }
+
+        if (gunLaser.enabled && Time.time > gunDeactivateTime) {
+            gunLaser.enabled = false;
+        }
+
+        if (hand.ButtonDown()) {
+            SwapState(!isGun);
+        }
 
 		//if (otherGun.state != State.grabing && state != State.grabing) {
 		//	RecenterPlayer();
 		//}
 	}
+
+    public void SwapState(bool newState)
+    {
+        if (state != State.detached) {
+            return;
+        }
+
+        isGun = newState;
+        clawParent.SetActive(!isGun);
+
+        Material[] grabberMats = mainGunRend.materials;
+        grabberMats[0] = !isGun ? grappleMainColor : gunMainColor;
+        mainGunRend.materials = grabberMats;
+
+        Material[] glowMats = grabberRend.materials;
+        glowMats[2] = !isGun ? grappleGlowColor : gunGlowColor;
+        grabberRend.materials = glowMats;
+
+        hand.SetHaptic(HandController.HapticType.retractDone);
+    }
 
 	AttachData GetGrappleTarget ()
 	{
